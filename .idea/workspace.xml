@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e87176aa-9de4-42ae-8859-bee2fd60b6eb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/JIATOUR/24seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/33seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/57seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/7-14seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/Banner1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/CNAME" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JIATOUR/README.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/JIATOUR/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pythonProject1.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
