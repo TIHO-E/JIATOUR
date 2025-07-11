@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="format-detection" content="telephone=no, email=no">
+
   <title>Jia Tour | Melbourne Bus & Coach Charter Services</title>
 
   <!-- SEO Meta Tags -->
@@ -198,6 +203,13 @@
       .about-grid, .quote-grid { flex-direction: column; }
     }
   </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("nav");
+      toggle.addEventListener("click", () => nav.classList.toggle("show"));
+    });
+  </script>
 </head>
 
 <body>
