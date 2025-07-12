@@ -379,29 +379,6 @@
       }
     }
   </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const toggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
-
-      // Toggle navigation visibility
-      toggle.addEventListener("click", () => {
-        nav.classList.toggle("show");
-      });
-
-      // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
-      // IMPORTANT: Ensure nav.querySelectorAll('a') finds links correctly regardless of initial display state.
-      // This is generally robust, but layout changes can sometimes affect it.
-      nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          // Only attempt to hide if the nav is currently shown (relevant for mobile)
-          if (nav.classList.contains('show')) {
-            nav.classList.remove('show');
-          }
-        });
-      });
-    });
-  </script>
 </head>
 
 <body>
@@ -538,5 +515,41 @@
     <p>&copy; 2025 Jia Tour Pty Ltd. All rights reserved.</p>
   </footer>
 
+  <script>
+    // Moved JavaScript to the end of <body> for better performance and DOM availability
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("nav");
+
+      // Check if elements are found, for debugging
+      if (!toggle) {
+        console.error("Error: .menu-toggle element not found!");
+      }
+      if (!nav) {
+        console.error("Error: nav element not found!");
+      }
+
+      // Toggle navigation visibility on hamburger click
+      if (toggle && nav) { // Only add listener if elements exist
+        toggle.addEventListener("click", () => {
+          nav.classList.toggle("show");
+        });
+      }
+
+      // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
+      // This part is robust as querySelectorAll will return an empty NodeList if no 'a' tags are found,
+      // and forEach will simply not execute.
+      if (nav) { // Only try to find links if nav exists
+        nav.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            // Only attempt to hide if the nav is currently shown (relevant for mobile)
+            if (nav.classList.contains('show')) {
+              nav.classList.remove('show');
+            }
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
