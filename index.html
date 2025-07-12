@@ -51,7 +51,7 @@
     header {
       background: var(--primary);
       padding: 1rem 0;
-      position: fixed;
+      position: fixed; /* Make header fixed */
       width: 100%;
       top: 0;
       z-index: 1000;
@@ -64,18 +64,18 @@
       max-width: 1200px;
       margin: auto;
       padding: 0 1rem;
-      flex-wrap: wrap; /* Allows wrapping on smaller desktop/tablet */
-      gap: 1rem; /* Adjust as needed for desktop spacing */
+      flex-wrap: nowrap; /* Prevent wrapping on desktop */
+      position: relative; /* For absolute positioning of mobile nav */
     }
-    .logo { height: 60px; background: var(--surface); border-radius: 6px; }
+    .logo { height: 60px; background: var(--surface); border-radius: 6px; flex-shrink: 0; }
 
     /* Desktop Navigation specific */
     nav {
         display: flex;
         gap: 1.5rem;
         flex-wrap: wrap;
-        /* Ensure nav takes its natural place in desktop flex flow */
-        order: unset; /* Reset order for desktop */
+        justify-content: center; /* Center nav links on desktop */
+        flex-grow: 1; /* Allow nav to take available space for centering */
     }
     nav a { color: var(--accent); font-weight: 600; transition: 0.3s; }
     nav a:hover { color: var(--hover); }
@@ -88,8 +88,7 @@
         flex-wrap: wrap;
         gap: 1rem;
         align-items: center;
-        order: unset; /* Reset order for desktop */
-        margin-left: unset; /* Reset margin for desktop */
+        flex-shrink: 0; /* Prevent contact links from shrinking */
     }
     .phone, .email { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
     .spacer { height: 90px; } /* Space for fixed header */
@@ -220,35 +219,35 @@
     /* --- Mobile Responsiveness (max-width: 768px) --- */
     @media (max-width: 768px) {
       .header-content {
-        flex-direction: row; /* Keep elements in a row for mobile header */
-        justify-content: flex-start; /* Align items to the start (left) */
-        padding: 0.5rem 1rem; /* Adjust padding for mobile header */
-        flex-wrap: nowrap; /* Prevent wrapping in the main header row */
-        gap: 0.5rem; /* Reduced gap for compact mobile header */
+        flex-direction: row; /* Main header row for logo, toggle, contacts */
+        justify-content: flex-start; /* Align to start */
+        padding: 0.5rem 1rem;
+        flex-wrap: nowrap; /* Prevent wrapping for the main row */
+        gap: 0.5rem;
       }
 
       .logo {
-        height: 50px; /* Smaller logo on mobile */
+        height: 50px; /* Smaller logo */
         order: 1; /* Logo first */
       }
 
       .menu-toggle {
-        display: block; /* Show hamburger icon on mobile */
+        display: block; /* Show hamburger icon */
         order: 2; /* Hamburger next to logo */
         font-size: 2rem;
         margin-left: 0.5rem; /* Space after logo */
-        color: var(--accent); /* Ensure color is visible */
+        color: var(--accent);
         cursor: pointer;
       }
 
       .contact-links {
-        display: flex; /* Ensure contact links are flex container */
-        flex-direction: row; /* Arrange phone and email in a row */
-        gap: 0.5rem; /* Small space between phone and email */
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
         align-items: center;
         order: 3; /* Contact links after hamburger */
         margin-left: auto; /* Push contact links to the far right */
-        font-size: 0.8rem; /* Smaller font for contact links */
+        font-size: 0.8rem;
       }
       .contact-links .phone, .contact-links .email {
           white-space: nowrap; /* Prevent phone/email from wrapping */
@@ -260,13 +259,13 @@
         flex-direction: column;
         width: 100%; /* Full width for the dropdown menu */
         background: var(--primary);
-        position: absolute;
-        top: 100%; /* Position below the header */
+        position: absolute; /* Position relative to .header-content */
+        top: 100%; /* Position below the header-content */
         left: 0;
         z-index: 999;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        padding-top: 0.5rem; /* Add some padding to the top of the dropdown */
-        order: unset; /* Nav does not participate in the main header row order when hidden/shown */
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator from header */
       }
 
       nav.show {
@@ -289,17 +288,17 @@
 
       .hero {
         padding: 1rem;
-        min-height: auto; /* Adjust hero height for mobile */
+        min-height: auto;
         padding-top: 80px; /* Account for fixed header */
       }
 
       .hero h1 {
         font-size: clamp(2rem, 10vw, 3.5rem);
-        white-space: normal; /* Allow text to wrap for hero heading on mobile */
+        white-space: normal;
       }
 
       .hero .highlight {
-        white-space: nowrap; /* Keep "Jia Tour" together */
+        white-space: nowrap;
       }
 
       .hero p {
@@ -327,7 +326,7 @@
       }
 
       .fleet-grid {
-        grid-template-columns: 1fr; /* Single column for fleet items on mobile */
+        grid-template-columns: 1fr;
         gap: 1.5rem;
       }
 
@@ -351,16 +350,16 @@
     /* --- Extra small mobile adjustments (max-width: 480px) --- */
     @media (max-width: 480px) {
       .logo {
-        height: 40px; /* Even smaller logo for very small screens */
+        height: 40px;
       }
 
       .menu-toggle {
-        font-size: 1.6rem; /* Smaller hamburger icon */
+        font-size: 1.6rem;
       }
 
       .contact-links {
-        font-size: 0.7rem; /* Smaller font for contact info */
-        gap: 0.2rem; /* Even smaller gap */
+        font-size: 0.7rem;
+        gap: 0.2rem;
       }
 
       .phone, .email {
@@ -385,13 +384,17 @@
       const toggle = document.querySelector(".menu-toggle");
       const nav = document.querySelector("nav");
 
+      // Toggle navigation visibility
       toggle.addEventListener("click", () => {
         nav.classList.toggle("show");
       });
 
       // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
+      // IMPORTANT: Ensure nav.querySelectorAll('a') finds links correctly regardless of initial display state.
+      // This is generally robust, but layout changes can sometimes affect it.
       nav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
+          // Only attempt to hide if the nav is currently shown (relevant for mobile)
           if (nav.classList.contains('show')) {
             nav.classList.remove('show');
           }
@@ -406,8 +409,7 @@
    <header>
     <div class="header-content">
       <img src="JIATOURLOGO.png" alt="Jia Tour Logo" class="logo" />
-      <div class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('show')">☰</div>
-      <nav>
+      <div class="menu-toggle">☰</div> <nav>
         <a href="#home">HOME</a>
         <a href="#about">About Us</a>
         <a href="#fleet">Fleet</a>
