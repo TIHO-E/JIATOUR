@@ -35,6 +35,7 @@
       --border-color: #D1D5DB;
       --hover: #E1B24C;
     }
+    /* Base styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -45,6 +46,8 @@
       font-size: 18px;
     }
     a { color: var(--accent); text-decoration: none; }
+
+    /* Header styles (Desktop first) */
     header {
       background: var(--primary);
       padding: 1rem 0;
@@ -57,21 +60,41 @@
     .header-content {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-between; /* Desktop: logo left, nav center, contacts right */
       max-width: 1200px;
       margin: auto;
       padding: 0 1rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      flex-wrap: wrap; /* Allows wrapping on smaller desktop/tablet */
+      gap: 1rem; /* Adjust as needed for desktop spacing */
     }
     .logo { height: 60px; background: var(--surface); border-radius: 6px; }
-    nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    /* Desktop Navigation specific */
+    nav {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        /* Ensure nav takes its natural place in desktop flex flow */
+        order: unset; /* Reset order for desktop */
+    }
     nav a { color: var(--accent); font-weight: 600; transition: 0.3s; }
     nav a:hover { color: var(--hover); }
-    .menu-toggle { display: none; font-size: 2rem; color: var(--accent); cursor: pointer; }
-    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+
+    .menu-toggle { display: none; } /* Hidden on desktop */
+
+    /* Desktop Contact Links specific */
+    .contact-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        order: unset; /* Reset order for desktop */
+        margin-left: unset; /* Reset margin for desktop */
+    }
     .phone, .email { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
-    .spacer { height: 90px; }
+    .spacer { height: 90px; } /* Space for fixed header */
+
+    /* Hero section */
     .hero {
       min-height: 100vh;
       background: linear-gradient(rgba(31,42,68,0.6), rgba(31,42,68,0.6)), url('Banner1.jpg') center/cover no-repeat;
@@ -90,12 +113,14 @@
     }
     .hero .highlight {
       color: var(--accent);
-      white-space: nowrap;
+      white-space: nowrap; /* Keep "Jia Tour" together */
     }
     .hero p {
       font-size: 1.2rem;
       font-weight: bold;
     }
+
+    /* General section styling */
     .section {
       padding: 3rem 1rem;
       max-width: 1200px;
@@ -135,6 +160,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .about-content ul { margin: 1rem 0 0 1.5rem; }
+
+    /* Fleet section */
     .fleet-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -153,6 +180,8 @@
       border-color: var(--accent);
     }
     .fleet-item img { width: 100%; border-radius: 6px; margin-bottom: 1rem; }
+
+    /* Form styles */
     .form-group { margin-bottom: 1rem; }
     input, textarea {
       width: 100%;
@@ -179,6 +208,8 @@
       background: var(--accent);
       color: var(--primary);
     }
+
+    /* Footer */
     footer {
       background: var(--primary);
       color: var(--surface);
@@ -186,64 +217,89 @@
       padding: 1rem;
     }
 
-    /* --- Mobile Responsiveness Adjustments --- */
+    /* --- Mobile Responsiveness (max-width: 768px) --- */
     @media (max-width: 768px) {
       .header-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: row; /* Keep elements in a row for mobile header */
+        justify-content: flex-start; /* Align items to the start (left) */
+        padding: 0.5rem 1rem; /* Adjust padding for mobile header */
+        flex-wrap: nowrap; /* Prevent wrapping in the main header row */
+        gap: 0.5rem; /* Reduced gap for compact mobile header */
       }
 
       .logo {
-        margin-bottom: 1rem;
+        height: 50px; /* Smaller logo on mobile */
+        order: 1; /* Logo first */
       }
 
+      .menu-toggle {
+        display: block; /* Show hamburger icon on mobile */
+        order: 2; /* Hamburger next to logo */
+        font-size: 2rem;
+        margin-left: 0.5rem; /* Space after logo */
+        color: var(--accent); /* Ensure color is visible */
+        cursor: pointer;
+      }
+
+      .contact-links {
+        display: flex; /* Ensure contact links are flex container */
+        flex-direction: row; /* Arrange phone and email in a row */
+        gap: 0.5rem; /* Small space between phone and email */
+        align-items: center;
+        order: 3; /* Contact links after hamburger */
+        margin-left: auto; /* Push contact links to the far right */
+        font-size: 0.8rem; /* Smaller font for contact links */
+      }
+      .contact-links .phone, .contact-links .email {
+          white-space: nowrap; /* Prevent phone/email from wrapping */
+      }
+
+      /* Navigation dropdown for mobile */
       nav {
-        display: none;
+        display: none; /* Hidden by default */
         flex-direction: column;
-        width: 100%;
-        padding: 0.5rem 0;
+        width: 100%; /* Full width for the dropdown menu */
         background: var(--primary);
+        position: absolute;
+        top: 100%; /* Position below the header */
+        left: 0;
+        z-index: 999;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding-top: 0.5rem; /* Add some padding to the top of the dropdown */
+        order: unset; /* Nav does not participate in the main header row order when hidden/shown */
       }
 
       nav.show {
-        display: flex;
+        display: flex; /* Show the dropdown when 'show' class is added */
       }
 
       nav a {
         padding: 0.75rem 1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center; /* Center nav links in the dropdown */
       }
 
       nav a:last-child {
         border-bottom: none;
       }
 
-      .menu-toggle {
-        display: block;
-        order: -1;
-        align-self: flex-end;
-        margin-top: -30px;
-      }
-
-      .contact-links {
-        flex-direction: column;
-        width: 100%;
-        padding-bottom: 1rem;
+      .spacer {
+        height: 65px; /* Adjust for mobile header height */
       }
 
       .hero {
         padding: 1rem;
-        min-height: 80vh;
+        min-height: auto; /* Adjust hero height for mobile */
+        padding-top: 80px; /* Account for fixed header */
       }
 
       .hero h1 {
         font-size: clamp(2rem, 10vw, 3.5rem);
-        white-space: normal;
+        white-space: normal; /* Allow text to wrap for hero heading on mobile */
       }
 
       .hero .highlight {
-        white-space: normal;
+        white-space: nowrap; /* Keep "Jia Tour" together */
       }
 
       .hero p {
@@ -271,7 +327,7 @@
       }
 
       .fleet-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column for fleet items on mobile */
         gap: 1.5rem;
       }
 
@@ -292,29 +348,35 @@
       }
     }
 
+    /* --- Extra small mobile adjustments (max-width: 480px) --- */
     @media (max-width: 480px) {
-      body {
-        font-size: 16px;
+      .logo {
+        height: 40px; /* Even smaller logo for very small screens */
       }
 
-      .logo {
-        height: 50px;
+      .menu-toggle {
+        font-size: 1.6rem; /* Smaller hamburger icon */
+      }
+
+      .contact-links {
+        font-size: 0.7rem; /* Smaller font for contact info */
+        gap: 0.2rem; /* Even smaller gap */
       }
 
       .phone, .email {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
       }
 
       .hero h1 {
-        font-size: clamp(1.8rem, 12vw, 3rem);
+        font-size: clamp(1.6rem, 14vw, 2.8rem);
       }
 
       .hero p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .section h2 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -322,7 +384,19 @@
     document.addEventListener("DOMContentLoaded", function () {
       const toggle = document.querySelector(".menu-toggle");
       const nav = document.querySelector("nav");
-      toggle.addEventListener("click", () => nav.classList.toggle("show"));
+
+      toggle.addEventListener("click", () => {
+        nav.classList.toggle("show");
+      });
+
+      // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (nav.classList.contains('show')) {
+            nav.classList.remove('show');
+          }
+        });
+      });
     });
   </script>
 </head>
