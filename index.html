@@ -553,7 +553,7 @@
       // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
       if (nav) { // Only try to find links if nav exists
         nav.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click", () => { // Corrected syntax here
+          link.addEventListener("click", () => { // Corrected syntax here
             console.log("Nav link clicked!"); // Debug: confirm link click
             // Only attempt to hide if the nav is currently shown (relevant for mobile)
             if (nav.classList.contains('show')) {
