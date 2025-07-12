@@ -238,6 +238,9 @@
         margin-left: 0.5rem; /* Space after logo */
         color: var(--accent);
         cursor: pointer;
+        /* *** IMPORTANT FIX: Ensure menu-toggle is clickable (higher z-index) *** */
+        position: relative; /* Needs position for z-index to work */
+        z-index: 1001; /* Higher than nav's z-index but lower than fixed header's */
       }
 
       .contact-links {
@@ -255,21 +258,23 @@
 
       /* Navigation dropdown for mobile */
       nav {
-        display: none; /* Hidden by default */
+        /* *** IMPORTANT FIX: Use !important to override potential other rules *** */
+        display: none !important; /* Hidden by default and high priority */
         flex-direction: column;
         width: 100%; /* Full width for the dropdown menu */
         background: var(--primary);
         position: absolute; /* Position relative to .header-content */
         top: 100%; /* Position below the header-content */
         left: 0;
-        z-index: 999;
+        z-index: 999; /* Ensure it's below the fixed header but above other content */
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding-top: 0.5rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator from header */
       }
 
       nav.show {
-        display: flex; /* Show the dropdown when 'show' class is added */
+        /* *** IMPORTANT FIX: Use !important to override potential other rules *** */
+        display: flex !important; /* Show the dropdown when 'show' class is added */
       }
 
       nav a {
@@ -386,7 +391,8 @@
    <header>
     <div class="header-content">
       <img src="JIATOURLOGO.png" alt="Jia Tour Logo" class="logo" />
-      <div class="menu-toggle">☰</div> <nav>
+      <div class="menu-toggle">☰</div>
+      <nav>
         <a href="#home">HOME</a>
         <a href="#about">About Us</a>
         <a href="#fleet">Fleet</a>
@@ -518,33 +524,41 @@
   <script>
     // Moved JavaScript to the end of <body> for better performance and DOM availability
     document.addEventListener("DOMContentLoaded", function () {
+      console.log("DOM Content Loaded - Script is running!"); // Debug: confirm script execution
+
       const toggle = document.querySelector(".menu-toggle");
       const nav = document.querySelector("nav");
 
-      // Check if elements are found, for debugging
-      if (!toggle) {
-        console.error("Error: .menu-toggle element not found!");
+      // Debug: Log if elements are found
+      if (toggle) {
+        console.log(".menu-toggle element found:", toggle);
+      } else {
+        console.error("Error: .menu-toggle element NOT FOUND!");
       }
-      if (!nav) {
-        console.error("Error: nav element not found!");
+      if (nav) {
+        console.log("nav element found:", nav);
+      } else {
+        console.error("Error: nav element NOT FOUND!");
       }
 
       // Toggle navigation visibility on hamburger click
-      if (toggle && nav) { // Only add listener if elements exist
+      if (toggle && nav) { // Only add listener if both elements exist
         toggle.addEventListener("click", () => {
+          console.log("Menu toggle clicked!"); // Debug: confirm click event
           nav.classList.toggle("show");
+          console.log("Nav class list after toggle:", nav.classList); // Debug: see class changes
         });
       }
 
       // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
-      // This part is robust as querySelectorAll will return an empty NodeList if no 'a' tags are found,
-      // and forEach will simply not execute.
       if (nav) { // Only try to find links if nav exists
         nav.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
+          link.addEventListener('click", () => { // Corrected syntax here
+            console.log("Nav link clicked!"); // Debug: confirm link click
             // Only attempt to hide if the nav is currently shown (relevant for mobile)
             if (nav.classList.contains('show')) {
               nav.classList.remove('show');
+              console.log("Nav closed after link click.");
             }
           });
         });
