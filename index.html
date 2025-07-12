@@ -4,24 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none';">
   <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="format-detection" content="telephone=no, email=no">
 
   <title>Jia Tour | Melbourne Bus & Coach Charter Services</title>
 
-  <!-- SEO Meta Tags -->
   <meta name="description" content="JIA TOUR offers comfortable, reliable tour bus services across Australia. Explore our fleet and book your next trip today.">
   <meta name="keywords" content="JIA Tour, Tour Bus, Australia Travel, Charter Bus, Sydney, Melbourne, 7-seater, 24-seater, 33-seater, 57-seater">
   <meta name="robots" content="index, follow">
   <meta name="author" content="JIATOUR">
 
-  <!-- Favicon -->
   <link rel="icon" href="JIATOURLOGO.png" type="image/png" />
   <link rel="preload" as="image" href="Banner1.jpg" type="image/jpg" fetchpriority="high">
 
-  <!-- Social Media Preview -->
   <meta property="og:title" content="JIA TOUR – Australia’s Trusted Tour Bus Provider">
   <meta property="og:description" content="Comfortable and reliable transport across Australia.">
   <meta property="og:image" content="https://www.jiatour.com.au/JIATOURLOGO.png">
@@ -60,20 +57,51 @@
     .header-content {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-between; /* This will push elements to ends */
       max-width: 1200px;
       margin: auto;
       padding: 0 1rem;
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
       gap: 1rem;
     }
     .logo { height: 60px; background: var(--surface); border-radius: 6px; }
-    nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      /* On desktop, nav should be between logo and contact links for spacing */
+      flex-grow: 1; /* Allows nav to take up available space */
+      justify-content: center; /* Center the nav items */
+    }
     nav a { color: var(--accent); font-weight: 600; transition: 0.3s; }
     nav a:hover { color: var(--hover); }
     .menu-toggle { display: none; font-size: 2rem; color: var(--accent); cursor: pointer; }
-    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-    .phone, .email { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      /* Desktop: Ensure these are always right-aligned */
+      margin-left: auto; /* Pushes contact-links to the far right */
+    }
+    .phone, .email {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex; /* Allows content and icon to be inline */
+      align-items: center; /* Vertically align icon with text */
+    }
+    /* Icons for phone and email on desktop */
+    .phone::before, .email::before {
+      content: attr(data-icon); /* Uses the data-icon attribute for content */
+      margin-right: 0.5em; /* Space between icon and text */
+      color: var(--accent); /* Ensure icon color matches */
+      font-size: 1.1em; /* Slightly larger icon */
+    }
+    .phone::before { content: "📞"; }
+    .email::before { content: "📧"; }
+
     .spacer { height: 90px; }
     .hero {
       min-height: 100vh;
@@ -155,7 +183,14 @@
       transform: translateY(-5px);
       border-color: var(--accent);
     }
-    .fleet-item img { width: 100%; border-radius: 6px; margin-bottom: 1rem; }
+    .fleet-item img {
+      width: 100%;
+      height: 200px; /* Fixed height for consistent display */
+      object-fit: contain; /* Ensures the whole image is visible */
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      background-color: #f0f0f0; /* Add a light background for images with transparency */
+    }
     .form-group { margin-bottom: 1rem; }
     input, textarea {
       width: 100%;
@@ -188,6 +223,8 @@
       text-align: center;
       padding: 1rem;
     }
+
+    /* Mobile specific styles */
     @media (max-width: 768px) {
       .hero h1 {
         font-size: clamp(2rem, 8vw, 3rem);
@@ -196,10 +233,60 @@
       .hero .highlight {
         white-space: nowrap;
       }
-      nav { display: none; flex-direction: column; width: 100%; padding: 1rem; }
-      nav.show { display: flex; }
-      .menu-toggle { display: block; }
-      .header-content { flex-direction: column; align-items: flex-start; }
+
+      .header-content {
+        flex-direction: row; /* Keep elements in a row */
+        justify-content: space-between; /* Distribute items with space between */
+        align-items: center; /* Vertically center items */
+        position: relative; /* For absolute positioning of nav */
+      }
+
+      .logo {
+        order: 1; /* Logo first */
+      }
+      .menu-toggle {
+        display: block; /* Show menu toggle button */
+        order: 2; /* Menu toggle after logo */
+        margin-right: auto; /* Pushes contact-links to the far right on mobile */
+      }
+      .contact-links {
+        order: 3; /* Contact links after menu toggle */
+        flex-direction: column; /* Stack phone and email vertically */
+        align-items: flex-end; /* Align to the right */
+        gap: 0.5rem;
+        font-size: 0.8rem; /* Smaller font size for mobile contact links */
+        margin-left: 0; /* Reset margin-left for mobile */
+      }
+      /* Icons for phone and email on mobile */
+      .contact-links .phone::before,
+      .contact-links .email::before {
+        content: attr(data-icon); /* Display the icon character */
+        margin-right: 5px;
+        font-size: 1em; /* Adjust icon size */
+      }
+
+      nav {
+        display: none; /* Hide navigation by default */
+        flex-direction: column; /* Stack navigation items vertically */
+        width: 100%; /* Full width */
+        background: var(--primary); /* Background for dropdown */
+        position: absolute; /* Position absolutely below header */
+        top: 100%; /* Below the header */
+        left: 0;
+        padding: 1rem 0;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+      }
+      nav.show {
+        display: flex; /* Show navigation when 'show' class is present */
+      }
+      nav a {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separator */
+      }
+      nav a:last-child {
+        border-bottom: none;
+      }
       .about-grid, .quote-grid { flex-direction: column; }
     }
   </style>
@@ -208,6 +295,15 @@
       const toggle = document.querySelector(".menu-toggle");
       const nav = document.querySelector("nav");
       toggle.addEventListener("click", () => nav.classList.toggle("show"));
+
+      // Close mobile nav when a link is clicked
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (nav.classList.contains('show')) {
+            nav.classList.remove('show');
+          }
+        });
+      });
     });
   </script>
 </head>
@@ -217,7 +313,11 @@
    <header>
     <div class="header-content">
       <img src="JIATOURLOGO.png" alt="Jia Tour Logo" class="logo" />
-      <div class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('show')">☰</div>
+      <div class="menu-toggle">☰</div>
+      <div class="contact-links">
+        <a href="tel:+61430218539" class="phone" data-icon="📞">0430 218 539</a>
+        <a href="mailto:jiatour@hotmail.com" class="email" data-icon="📧">jiatour@hotmail.com</a>
+      </div>
       <nav>
         <a href="#home">HOME</a>
         <a href="#about">About Us</a>
@@ -225,10 +325,6 @@
         <a href="#contact">Contact</a>
         <a href="#quote">Quote</a>
       </nav>
-      <div class="contact-links">
-        <a href="tel:+61430218539" class="phone">0430 218 539</a>
-        <a href="mailto:jiatour@hotmail.com" class="email">jiatour@hotmail.com</a>
-      </div>
     </div>
   </header>
 
@@ -242,23 +338,22 @@
     </div>
   </section>
 
-  <!-- About Section -->
   <section id="about" class="section">
     <h2>About Us</h2>
     <div class="about-grid">
       <div class="about-content">
-  <p><strong>Jia Tour</strong> is a trusted <strong>Melbourne-based bus charter provider</strong>, delivering safe and reliable transport services throughout Victoria and across Australia.</p>
+        <p><strong>Jia Tour</strong> is a trusted <strong>Melbourne-based bus charter provider</strong>, delivering safe and reliable transport services throughout Victoria and across Australia.</p>
 
-  <p>Our professional drivers each bring <span style="color: var(--accent); font-weight: bold;">over a decade of experience</span>, ensuring every journey is smooth, punctual, and secure.</p>
+        <p>Our professional drivers each bring <span style="color: var(--accent); font-weight: bold;">over a decade of experience</span>, ensuring every journey is smooth, punctual, and secure.</p>
 
-  <p><span style="font-weight: bold; color: var(--primary);">Safety is—and always will be—our top priority.</span></p>
+        <p><span style="font-weight: bold; color: var(--primary);">Safety is—and always will be—our top priority.</span></p>
 
-  <div style="background: #F3F4F6; border-left: 4px solid var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
-    <p style="margin: 0;"><strong>Accredited Bus Operator</strong>: <span style="color: var(--primary); font-weight: bold;">#AO134410</span></p>
-    <p style="margin: 0;">Certified by Transport Safety Victoria</p>
-    <p style="margin: 0;">Compliant with the <em>Bus Safety Act 2009 (VIC)</em> & <em>Bus Safety Regulations 2010 (VIC)</em></p>
-  </div>
-          <h3>We proudly specialise in transportation for:</h3>
+        <div style="background: #F3F4F6; border-left: 4px solid var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+          <p style="margin: 0;"><strong>Accredited Bus Operator</strong>: <span style="color: var(--primary); font-weight: bold;">#AO134410</span></p>
+          <p style="margin: 0;">Certified by Transport Safety Victoria</p>
+          <p style="margin: 0;">Compliant with the <em>Bus Safety Act 2009 (VIC)</em> & <em>Bus Safety Regulations 2010 (VIC)</em></p>
+        </div>
+        <h3>We proudly specialise in transportation for:</h3>
         <ul>
           <li>Educational institutions and school excursions</li>
           <li>Corporate events and conferences</li>
@@ -280,7 +375,6 @@
     </div>
   </section>
 
-  <!-- Fleet Section -->
   <section id="fleet" class="section">
     <h2>Our Fleet</h2>
     <div class="fleet-grid">
@@ -307,7 +401,6 @@
     </div>
   </section>
 
-  <!-- Quote Section -->
   <section id="quote" class="section">
     <h2>Request a Quote</h2>
     <div class="quote-grid">
