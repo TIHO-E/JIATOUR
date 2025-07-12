@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none';">
   <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="format-detection" content="telephone=no, email=no">
@@ -21,10 +21,8 @@
 
   <meta property="og:title" content="JIA TOUR – Australia’s Trusted Tour Bus Provider">
   <meta property="og:description" content="Comfortable and reliable transport across Australia.">
-  <meta property="og:image" content="https://www.jiatour.com.au/JIATOURLOGO.png">
-  <meta property="og:url" content="https://www.jiatour.com.au">
-
-  <style>
+  <meta property="og:image" content="https://www.jiatour.com.au/JIATOURLOGO.png"> <meta property="og:url" content="https://www.jiatour.com.au"> <style>
+    /* CSS Variables for easy theme management */
     :root {
       --primary: #1F2A44;
       --accent: #FFC857;
@@ -35,63 +33,103 @@
       --border-color: #D1D5DB;
       --hover: #E1B24C;
     }
-    /* Base styles */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    /* Base styles - Resets and Typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch; /* For iOS Safari smooth scrolling */
+    }
+    html {
+      scroll-behavior: smooth; /* Smooth scroll to anchor links */
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
       background: var(--background);
       color: var(--text-main);
       line-height: 1.6;
-      font-size: 18px;
+      font-size: 18px; /* Base font size */
+      overflow-x: hidden; /* Prevent horizontal scroll on body */
     }
-    a { color: var(--accent); text-decoration: none; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.3s ease; /* Smooth color transition on hover */
+    }
+    a:hover {
+      color: var(--hover);
+    }
 
-    /* Header styles (Desktop first) */
+    /* Header styles (Desktop first approach) */
     header {
       background: var(--primary);
       padding: 1rem 0;
-      position: fixed; /* Make header fixed */
+      position: fixed; /* Fixed header on top */
       width: 100%;
       top: 0;
-      z-index: 1000;
+      left: 0; /* Ensure it's always at the left edge */
+      z-index: 1000; /* High z-index to stay on top */
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .header-content {
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Desktop: logo left, nav center, contacts right */
+      justify-content: space-between; /* Logo left, Nav center, Contacts right */
       max-width: 1200px;
-      margin: auto;
+      margin: auto; /* Center content horizontally */
       padding: 0 1rem;
-      flex-wrap: nowrap; /* Prevent wrapping on desktop */
-      position: relative; /* For absolute positioning of mobile nav */
+      flex-wrap: nowrap; /* Prevent items from wrapping on desktop */
+      position: relative; /* Crucial for absolute positioning of mobile nav */
     }
-    .logo { height: 60px; background: var(--surface); border-radius: 6px; flex-shrink: 0; }
+    .logo {
+      height: 60px;
+      background: var(--surface);
+      border-radius: 6px;
+      flex-shrink: 0; /* Prevent logo from shrinking */
+    }
 
     /* Desktop Navigation specific */
     nav {
-        display: flex;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-        justify-content: center; /* Center nav links on desktop */
-        flex-grow: 1; /* Allow nav to take available space for centering */
+      display: flex; /* Display as flex on desktop */
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center; /* Center nav links */
+      flex-grow: 1; /* Allow nav to take available space */
+      transition: transform 0.3s ease-in-out; /* Smooth transition for mobile slide */
     }
-    nav a { color: var(--accent); font-weight: 600; transition: 0.3s; }
-    nav a:hover { color: var(--hover); }
+    nav a {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap; /* Prevent nav links from wrapping on desktop */
+    }
+    nav a:hover {
+      color: var(--hover);
+    }
 
-    .menu-toggle { display: none; } /* Hidden on desktop */
+    .menu-toggle {
+      display: none; /* Hidden on desktop */
+    }
 
     /* Desktop Contact Links specific */
     .contact-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        align-items: center;
-        flex-shrink: 0; /* Prevent contact links from shrinking */
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      flex-shrink: 0; /* Prevent contact links from shrinking */
     }
-    .phone, .email { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
-    .spacer { height: 90px; } /* Space for fixed header */
+    .contact-links .phone,
+    .contact-links .email {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap; /* Prevent phone/email from wrapping on desktop */
+    }
+    .spacer {
+      height: 90px; /* Space to prevent content from going under fixed header */
+    }
 
     /* Hero section */
     .hero {
@@ -103,9 +141,10 @@
       align-items: center;
       text-align: center;
       padding: 2rem;
+      background-attachment: fixed; /* Parallax effect */
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-size: clamp(2.5rem, 6vw, 5rem); /* Responsive font size */
       font-weight: 800;
       text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
       margin-bottom: 1rem;
@@ -146,6 +185,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
+      justify-content: center; /* Center items in grids */
     }
     .about-content { flex: 2 1 600px; }
     .company-info { flex: 1 1 280px; text-align: center; }
@@ -158,7 +198,8 @@
       border: 1px solid var(--border-color);
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    .about-content ul { margin: 1rem 0 0 1.5rem; }
+    .about-content ul { margin: 1rem 0 0 1.5rem; list-style-type: disc; }
+    .about-content ul li { margin-bottom: 0.5rem; }
 
     /* Fleet section */
     .fleet-grid {
@@ -172,28 +213,49 @@
       border: 1px solid var(--border-color);
       text-align: center;
       background: var(--surface);
-      transition: transform 0.3s, border-color 0.3s;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
     }
     .fleet-item:hover {
       transform: translateY(-5px);
       border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .fleet-item img { width: 100%; border-radius: 6px; margin-bottom: 1rem; }
+    .fleet-item img {
+      width: 100%;
+      height: 180px; /* Fixed height for consistency */
+      object-fit: cover; /* Cover the area */
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+    .fleet-item h3 {
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
 
     /* Form styles */
     .form-group { margin-bottom: 1rem; }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
     input, textarea {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 1rem;
+      color: var(--text-main);
+      background-color: var(--background);
     }
     input:focus, textarea:focus {
       border-color: var(--accent);
       outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 200, 87, 0.2);
     }
-    button {
+    button[type="submit"] {
       background: var(--primary);
       color: var(--surface);
       padding: 0.75rem 1.5rem;
@@ -201,9 +263,13 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: block; /* Make button full width if needed */
+      width: 100%; /* Ensure button takes full width of parent */
+      max-width: 200px; /* Max width for desktop forms */
+      margin: 0 auto; /* Center button */
     }
-    button:hover {
+    button[type="submit"]:hover {
       background: var(--accent);
       color: var(--primary);
     }
@@ -213,7 +279,8 @@
       background: var(--primary);
       color: var(--surface);
       text-align: center;
-      padding: 1rem;
+      padding: 1.5rem; /* Increased padding */
+      font-size: 0.9rem;
     }
 
     /* --- Mobile Responsiveness (max-width: 768px) --- */
@@ -223,28 +290,29 @@
         justify-content: flex-start; /* Align to start */
         padding: 0.5rem 1rem;
         flex-wrap: nowrap; /* Prevent wrapping for the main row */
-        gap: 0.5rem;
+        gap: 0.5rem; /* Small gap between items */
       }
 
       .logo {
-        height: 50px; /* Smaller logo */
+        height: 50px; /* Smaller logo for mobile */
         order: 1; /* Logo first */
       }
 
       .menu-toggle {
-        display: block; /* Show hamburger icon */
+        display: block !important; /* Show hamburger icon with high priority */
         order: 2; /* Hamburger next to logo */
         font-size: 2rem;
         margin-left: 0.5rem; /* Space after logo */
         color: var(--accent);
         cursor: pointer;
-        /* *** IMPORTANT FIX: Ensure menu-toggle is clickable (higher z-index) *** */
-        position: relative; /* Needs position for z-index to work */
+        /* Crucial for clickability: Ensure it's above other elements */
+        position: relative;
         z-index: 1001; /* Higher than nav's z-index but lower than fixed header's */
+        padding: 0.2rem 0.5rem; /* Add some padding for easier tapping */
       }
 
       .contact-links {
-        display: flex;
+        display: flex; /* Always display contact links */
         flex-direction: row;
         gap: 0.5rem;
         align-items: center;
@@ -252,7 +320,8 @@
         margin-left: auto; /* Push contact links to the far right */
         font-size: 0.8rem;
       }
-      .contact-links .phone, .contact-links .email {
+      .contact-links .phone,
+      .contact-links .email {
           white-space: nowrap; /* Prevent phone/email from wrapping */
       }
 
@@ -266,15 +335,20 @@
         position: absolute; /* Position relative to .header-content */
         top: 100%; /* Position below the header-content */
         left: 0;
-        z-index: 999; /* Ensure it's below the fixed header but above other content */
+        z-index: 999; /* Ensure it's below the fixed header but above content */
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding-top: 0.5rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator from header */
+        /* Optional: Add transition for smooth opening/closing */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
       }
 
       nav.show {
-        /* *** IMPORTANT FIX: Use !important to override potential other rules *** */
         display: flex !important; /* Show the dropdown when 'show' class is added */
+        max-height: 300px; /* Adjust based on menu item count to allow transition */
+        overflow: auto; /* Allow scrolling if menu is very long */
       }
 
       nav a {
@@ -282,7 +356,6 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         text-align: center; /* Center nav links in the dropdown */
       }
-
       nav a:last-child {
         border-bottom: none;
       }
@@ -293,17 +366,18 @@
 
       .hero {
         padding: 1rem;
-        min-height: auto;
+        min-height: auto; /* Adjust height for smaller screens */
         padding-top: 80px; /* Account for fixed header */
+        background-attachment: scroll; /* Disable parallax on mobile for performance */
       }
 
       .hero h1 {
         font-size: clamp(2rem, 10vw, 3.5rem);
-        white-space: normal;
+        white-space: normal; /* Allow text to wrap */
       }
 
       .hero .highlight {
-        white-space: nowrap;
+        white-space: normal; /* Allow highlight text to wrap */
       }
 
       .hero p {
@@ -320,7 +394,7 @@
 
       .about-grid,
       .quote-grid {
-        flex-direction: column;
+        flex-direction: column; /* Stack columns on mobile */
         gap: 1.5rem;
       }
 
@@ -331,12 +405,12 @@
       }
 
       .fleet-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column on mobile */
         gap: 1.5rem;
       }
 
-      .fleet-item {
-        margin-bottom: 1rem;
+      .fleet-item img {
+        height: 150px; /* Slightly smaller images on mobile */
       }
 
       input,
@@ -346,9 +420,13 @@
         font-size: 1rem;
       }
 
+      button[type="submit"] {
+        max-width: 100%; /* Allow full width button on mobile */
+      }
+
       footer {
-        padding: 1.5rem 1rem;
-        font-size: 0.9rem;
+        padding: 1rem;
+        font-size: 0.85rem;
       }
     }
 
@@ -391,8 +469,8 @@
    <header>
     <div class="header-content">
       <img src="JIATOURLOGO.png" alt="Jia Tour Logo" class="logo" />
-      <div class="menu-toggle">☰</div>
-      <nav>
+      <div class="menu-toggle" aria-label="Toggle navigation menu" role="button" tabindex="0">☰</div>
+      <nav aria-label="Main Navigation">
         <a href="#home">HOME</a>
         <a href="#about">About Us</a>
         <a href="#fleet">Fleet</a>
@@ -524,45 +602,72 @@
   <script>
     // Moved JavaScript to the end of <body> for better performance and DOM availability
     document.addEventListener("DOMContentLoaded", function () {
-      console.log("DOM Content Loaded - Script is running!"); // Debug: confirm script execution
+      console.log("--- SCRIPT START: DOMContentLoaded event fired ---"); // Debug: Confirm script execution
 
       const toggle = document.querySelector(".menu-toggle");
       const nav = document.querySelector("nav");
 
-      // Debug: Log if elements are found
+      // Debug: Log if elements are found. If not, this is the root cause.
       if (toggle) {
-        console.log(".menu-toggle element found:", toggle);
+        console.log("SUCCESS: .menu-toggle element found:", toggle);
+        // Initial accessibility state
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', 'main-navigation'); // Link to nav by ID if nav had one
       } else {
-        console.error("Error: .menu-toggle element NOT FOUND!");
+        console.error("ERROR: .menu-toggle element NOT FOUND! Hamburger menu will not work.");
       }
       if (nav) {
-        console.log("nav element found:", nav);
+        console.log("SUCCESS: nav element found:", nav);
+        nav.setAttribute('aria-hidden', 'true'); // Initially hidden
+        nav.setAttribute('id', 'main-navigation'); // Give nav an ID for accessibility
       } else {
-        console.error("Error: nav element NOT FOUND!");
+        console.error("ERROR: nav element NOT FOUND! Navigation menu will not work.");
       }
 
-      // Toggle navigation visibility on hamburger click
+      // Add click listener to the hamburger toggle
       if (toggle && nav) { // Only add listener if both elements exist
         toggle.addEventListener("click", () => {
-          console.log("Menu toggle clicked!"); // Debug: confirm click event
+          console.log("DEBUG: Menu toggle clicked!"); // Debug: Confirm click event
           nav.classList.toggle("show");
-          console.log("Nav class list after toggle:", nav.classList); // Debug: see class changes
+          console.log("DEBUG: Nav class list after toggle:", nav.classList); // Debug: See class changes
+
+          // Optional: Improve accessibility
+          if (nav.classList.contains('show')) {
+            toggle.setAttribute('aria-expanded', 'true');
+            nav.setAttribute('aria-hidden', 'false');
+          } else {
+            toggle.setAttribute('aria-expanded', 'false');
+            nav.setAttribute('aria-hidden', 'true');
+          }
         });
       }
 
       // Close navigation when a link inside it is clicked (for smooth scrolling on single-page sites)
-      if (nav) { // Only try to find links if nav exists
-        nav.querySelectorAll('a').forEach(link => {
-          link.addEventListener("click", () => { // Corrected syntax here
-            console.log("Nav link clicked!"); // Debug: confirm link click
-            // Only attempt to hide if the nav is currently shown (relevant for mobile)
-            if (nav.classList.contains('show')) {
-              nav.classList.remove('show');
-              console.log("Nav closed after link click.");
-            }
+      // This is generally robust as querySelectorAll returns an empty NodeList if no 'a' tags are found.
+      if (nav) { // Only try to find links if nav element exists
+        const navLinks = nav.querySelectorAll('a');
+        if (navLinks.length > 0) {
+          console.log(`DEBUG: Found ${navLinks.length} navigation links.`);
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => { // CORRECTED SYNTAX: No extra quote after 'click'
+              console.log("DEBUG: Nav link clicked!"); // Debug: Confirm link click
+              // Only attempt to hide if the nav is currently shown (relevant for mobile)
+              if (nav.classList.contains('show')) {
+                nav.classList.remove('show');
+                console.log("DEBUG: Nav closed after link click.");
+                // Update accessibility attributes
+                if (toggle) { // Check if toggle exists before setting attribute
+                  toggle.setAttribute('aria-expanded', 'false');
+                }
+                nav.setAttribute('aria-hidden', 'true');
+              }
+            });
           });
-        });
+        } else {
+          console.warn("WARNING: No navigation links found inside the <nav> element.");
+        }
       }
+      console.log("--- SCRIPT END: Event listeners attached ---");
     });
   </script>
 </body>
