@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e87176aa-9de4-42ae-8859-bee2fd60b6eb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/24seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/33seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/57seater.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/7-14seater.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CNAME" beforeDir="false" afterPath="$PROJECT_DIR$/CNAME" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JIATOUR/Banner1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Banner1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JIATOUR/JIATOURLOGO.png" beforeDir="false" afterPath="$PROJECT_DIR$/JIATOURLOGO.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JIATOUR/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/Index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/api/leaderboard.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/i18n/en.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/i18n/zh.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/amig-edu-site/vercel.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
