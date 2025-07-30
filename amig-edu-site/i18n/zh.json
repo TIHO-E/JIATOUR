@@ -1,0 +1,30 @@
+{
+  "header-title": "AMIG - 学生认证与学习平台",
+  "header-description": "通过区块链认证学生项目与能力，展示全球学习成果",
+  "credential-title": "🧠 学生认证",
+  "credential-description": "使用你的 Web3 钱包进行学习项目与能力认证。",
+  "connect-button": "连接钱包并认证",
+  "credential-items": [
+    "💼 项目：全球文化调研",
+    "📚 内容：地理、语言、节日",
+    "🧩 能力：调研、沟通、创造力"
+  ],
+  "nft-title": "🎓 NFT 成果证书",
+  "nft-description": "合格项目可获得链上学习成果 NFT 证书。",
+  "nft-button": "铸造 NFT",
+  "nft-items": [
+    "✍️ 内容不少于 500 字 + 媒体材料",
+    "🌟 创意由老师或社区评分",
+    "🔗 使用 ERC-721 标准生成链上证书"
+  ],
+  "upload-title": "📂 上传你的作品",
+  "upload-description": "提交你的视频、文档或外链作为学习成果。",
+  "upload-button": "提交项目",
+  "leaderboard-title": "🏆 学生成果排行榜",
+  "leaderboard-description": "按互动活跃度与内容质量展示前十学生作品。",
+  "leaderboard-items": [
+    "小艾 - 《亚洲节日调研》",
+    "小斌 - 《西班牙语说唱教学片》",
+    "小琪 - 《虚拟国家文化漫游》"
+  ]
+}

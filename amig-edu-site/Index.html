@@ -32,6 +32,23 @@
       margin-top: 10px;
       font-style: italic;
     }
+    .syllabus-item {
+      margin-bottom: 8px;
+    }
+    .syllabus-link {
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .syllabus-progress {
+      font-style: italic;
+      color: #28a745;
+    }
+    /* 添加加载动画样式 */
+    .spinner-border {
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -62,7 +79,7 @@
       <div class="card-body">
         <p id="nft-description"></p>
         <ul id="nft-list"></ul>
-        <button class="btn btn-outline-warning" id="nft-button"></button>
+        <button class="btn btn-outline-warning" id="nft-button" onclick="mintNFT()"></button>
       </div>
     </div>
 
@@ -70,7 +87,18 @@
       <div class="card-header bg-info text-white" id="upload-title"></div>
       <div class="card-body">
         <p id="upload-description"></p>
-        <button class="btn btn-outline-primary" id="upload-button"></button>
+        <input type="file" id="uploadFile" class="form-control mb-2">
+        <textarea id="uploadNote" class="form-control mb-2" placeholder="Optional description..."></textarea>
+        <button class="btn btn-outline-primary" id="upload-button" onclick="submitUpload()"></button>
+        <div id="upload-status" class="text-muted mt-2"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header bg-success text-white" id="syllabus-title"></div>
+      <div class="card-body">
+        <p id="syllabus-description"></p>
+        <ul id="syllabus-list"></ul>
       </div>
     </div>
 
@@ -84,6 +112,13 @@
   </div>
 
   <script>
+    // 配置信息 - 实际部署时应从环境变量或安全的后端 API 获取
+    const CONFIG = {
+      WEB3_STORAGE_TOKEN: 'YOUR_WEB3_STORAGE_TOKEN', // 实际部署时应替换为真实 token
+      NFT_CONTRACT_ADDRESS: '0x...' // NFT 合约地址
+    };
+
+    // 国际化功能
     let translations = {};
     let currentLang = 'en';
 
@@ -110,31 +145,52 @@
       set("upload-title", t["upload-title"]);
       set("upload-description", t["upload-description"]);
       set("upload-button", t["upload-button"]);
+      set("syllabus-title", t["syllabus-title"]);
+      set("syllabus-description", t["syllabus-description"]);
       set("leaderboard-title", t["leaderboard-title"]);
       set("leaderboard-description", t["leaderboard-description"]);
 
-      const ul = document.getElementById("credential-list");
+      // 渲染列表
+      renderList("credential-list", t["credential-items"]);
+      renderList("nft-list", t["nft-items"]);
+      renderList("leaderboard-list", t["leaderboard-items"]);
+      renderSyllabusList("syllabus-list", t["syllabus-items"]);
+    }
+
+    function renderList(elementId, items) {
+      const ul = document.getElementById(elementId);
+      if (!ul || !items) return;
+
       ul.innerHTML = "";
-      t["credential-items"].forEach(item => {
+      items.forEach(item => {
         const li = document.createElement("li");
         li.innerText = item;
         ul.appendChild(li);
       });
+    }
 
-      const nftUl = document.getElementById("nft-list");
-      nftUl.innerHTML = "";
-      t["nft-items"].forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        nftUl.appendChild(li);
-      });
+    function renderSyllabusList(elementId, items) {
+      const syl = document.getElementById(elementId);
+      if (!syl || !items) return;
 
-      const lb = document.getElementById("leaderboard-list");
-      lb.innerHTML = "";
-      t["leaderboard-items"].forEach(item => {
+      syl.innerHTML = "";
+      items.forEach(item => {
         const li = document.createElement("li");
-        li.innerText = item;
-        lb.appendChild(li);
+        li.className = "syllabus-item";
+
+        const a = document.createElement("a");
+        a.href = item.link;
+        a.className = "syllabus-link";
+        a.target = "_blank";
+        a.innerText = item.code + ": " + item.title;
+
+        const span = document.createElement("span");
+        span.className = "syllabus-progress";
+        span.innerText = ` (${item.progress}%)`;
+
+        li.appendChild(a);
+        li.appendChild(span);
+        syl.appendChild(li);
       });
     }
 
@@ -154,21 +210,162 @@
         (lang === 'zh' ? '当前时间与示例金额：' : 'Current time & sample currency: ') + dateStr + ' / ' + currency;
     }
 
+    // UI 辅助函数
+    function showLoading(elementId, isLoading) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      if (isLoading) {
+        element.innerHTML = '<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div>' + element.innerHTML;
+        element.disabled = true;
+      } else {
+        const spinner = element.querySelector('.spinner-border');
+        if (spinner) spinner.remove();
+        element.disabled = false;
+      }
+    }
+
+    // Web3 功能
     async function connectWallet() {
+      const buttonId = 'connect-button';
+      showLoading(buttonId, true);
+
       if (typeof window.ethereum !== 'undefined') {
         const web3 = new Web3(window.ethereum);
         try {
           await ethereum.request({ method: 'eth_requestAccounts' });
           const accounts = await web3.eth.getAccounts();
-          document.getElementById('certStatus').innerText = `✅ Wallet connected: ${accounts[0]}`;
+          document.getElementById('certStatus').innerText = `✅ ${currentLang === 'zh' ? '钱包已连接' : 'Wallet connected'}: ${accounts[0]}`;
         } catch (error) {
-          document.getElementById('certStatus').innerText = '❌ Wallet connection failed. Please try again.';
+          document.getElementById('certStatus').innerText = currentLang === 'zh' ? '❌ 钱包连接失败，请重试。' : '❌ Wallet connection failed. Please try again.';
         }
       } else {
-        alert('Please install MetaMask to use Web3 features.');
+        alert(currentLang === 'zh' ? '请安装 MetaMask 以使用 Web3 功能。' : 'Please install MetaMask to use Web3 features.');
+      }
+
+      showLoading(buttonId, false);
+    }
+
+    async function mintNFT() {
+      if (typeof window.ethereum === 'undefined') {
+        alert(currentLang === 'zh' ? '请安装 MetaMask 以使用 Web3 功能' : 'Please install MetaMask to use Web3 features');
+        return;
+      }
+
+      const buttonId = 'nft-button';
+      showLoading(buttonId, true);
+
+      const web3 = new Web3(window.ethereum);
+      try {
+        // 确保钱包已连接
+        let accounts = await web3.eth.getAccounts();
+        if (!accounts || accounts.length === 0) {
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          accounts = await web3.eth.getAccounts();
+        }
+
+        // 这里应该添加实际的 NFT 铸造逻辑
+        // 例如调用智能合约的 mint 函数
+        alert(currentLang === 'zh'
+          ? `准备为账户 ${accounts[0]} 铸造 NFT 证书。实际铸造功能需要集成相应的智能合约。`
+          : `Ready to mint NFT certificate for account ${accounts[0]}. Actual minting requires smart contract integration.`);
+
+      } catch (error) {
+        console.error('NFT minting failed:', error);
+        alert(currentLang === 'zh' ? 'NFT 铸造失败，请重试。' : 'NFT minting failed. Please try again.');
+      }
+
+      showLoading(buttonId, false);
+    }
+
+    // 文件上传功能
+    async function submitUpload() {
+      const fileInput = document.getElementById("uploadFile");
+      const note = document.getElementById("uploadNote").value;
+      const status = document.getElementById("upload-status");
+
+      if (!fileInput.files.length) {
+        status.innerText = currentLang === 'zh' ? "❗ 请选择要上传的文件。" : "❗ Please choose a file to upload.";
+        return;
+      }
+
+      const file = fileInput.files[0];
+
+      // 添加文件类型和大小验证
+      const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'video/mp4', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      const maxSize = 50 * 1024 * 1024; // 50MB
+
+      if (!allowedTypes.includes(file.type)) {
+        status.innerText = currentLang === 'zh'
+          ? "❗ 不支持的文件类型。请上传图片、PDF、视频或文档文件。"
+          : "❗ Unsupported file type. Please upload images, PDFs, videos, or documents.";
+        return;
+      }
+
+      if (file.size > maxSize) {
+        status.innerText = currentLang === 'zh'
+          ? "❗ 文件太大。最大允许大小为 50MB。"
+          : "❗ File too large. Maximum allowed size is 50MB.";
+        return;
+      }
+
+      const buttonId = 'upload-button';
+      showLoading(buttonId, true);
+      status.innerText = currentLang === 'zh'
+        ? `📤 正在上传 "${file.name}" 到 IPFS...`
+        : `📤 Uploading "${file.name}" to IPFS...`;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        // 使用配置中的 token
+        const res = await fetch("https://api.web3.storage/upload", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${CONFIG.WEB3_STORAGE_TOKEN}`
+          },
+          body: formData
+        });
+
+        if (!res.ok) throw new Error("Upload failed");
+
+        const data = await res.json();
+        const cid = data.cid;
+        const fileUrl = `https://${cid}.ipfs.dweb.link/${file.name}`;
+        status.innerText = (currentLang === 'zh' ? `✅ 上传成功: ` : `✅ Uploaded successfully: `) + fileUrl +
+          (note ? (currentLang === 'zh' ? `\n📝 备注: ` : `\n📝 Note: `) + note : "");
+      } catch (err) {
+        console.error(err);
+        status.innerText = currentLang === 'zh' ? "❌ 上传失败，请重试。" : "❌ Upload failed. Please try again.";
+      }
+
+      showLoading(buttonId, false);
+    }
+
+    // 加载排行榜数据
+    async function loadLeaderboard() {
+      try {
+        const response = await fetch('/api/leaderboard.json');
+        if (!response.ok) throw new Error('Failed to load leaderboard data');
+
+        const data = await response.json();
+        const leaderboardList = document.getElementById('leaderboard-list');
+        leaderboardList.innerHTML = '';
+
+        data.forEach(item => {
+          const li = document.createElement('li');
+          li.innerText = currentLang === 'zh'
+            ? `${item.name_zh} - '${item.project_zh}'`
+            : `${item.name} - '${item.project}'`;
+          leaderboardList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading leaderboard:', err);
       }
     }
 
+    // 初始化
     async function loadTranslations() {
       try {
         const [enRes, zhRes] = await Promise.all([
@@ -182,12 +379,16 @@
         const savedLang = localStorage.getItem('preferredLanguage');
         const userLang = savedLang || (navigator.language.startsWith('zh') ? 'zh' : 'en');
         setLanguage(userLang);
+
+        // 加载排行榜数据
+        loadLeaderboard();
       } catch (err) {
         console.error("Translation loading error:", err);
       }
     }
 
-    loadTranslations();
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', loadTranslations);
   </script>
 
 </body>
