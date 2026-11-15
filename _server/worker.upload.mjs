@@ -165,7 +165,7 @@ async function fetchJson(fetcher, url, options) {
   return {response, body};
 }
 
-export function createWorker({fetcher = fetch, now = () => new Date()} = {}) {
+function createWorker({fetcher = fetch, now = () => new Date()} = {}) {
   return {async fetch(request, env) {
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
