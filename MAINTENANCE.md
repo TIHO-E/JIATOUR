@@ -5,27 +5,24 @@ Source: https://github.com/TIHO-E/JIATOUR
 
 This is a buildless static website. Keep the existing GitHub Pages custom domain and CNAME. Publish the HTML pages, assets, robots.txt and sitemap.xml at the repository root. No account, tracking tag or paid advertising campaign is created by this update.
 
-## Form delivery
+## Form delivery and automatic acknowledgements
 
-The quote form POSTs to the existing FormSubmit recipient, jiatour@hotmail.com. CAPTCHA is enabled by default; a honeypot adds another spam check. The page never shows an email-delivered message merely because a submit button was clicked. The thank-you page is only a landing page, not an independently verified delivery receipt.
+The homepage submits JSON to `https://jiatour-enquiries.tiho-largaux.workers.dev/enquiry`. Cloudflare Turnstile protects the form, and the Worker checks the token, hostname, action, origins and enquiry fields before sending a Resend batch. FormSubmit's action and autoresponse fields have been removed, so the website does not send two customer receipts through different providers.
 
-Delivery acceptance still requires the business to send one clearly labelled test enquiry through the live form, complete the provider's verification, activate the recipient if FormSubmit requests it, and confirm inbox or junk-folder receipt. Confirm all trip details arrive and any campaign attribution appears in the business notification subject. Do not launch paid ads until that is confirmed. No test email was sent during offline/browser validation.
+Each accepted enquiry sends two messages:
 
-## Automatic customer acknowledgements
+- Business notification to `jiatour@hotmail.com`, with Reply-To set to the validated customer email.
+- Branded customer acknowledgement from `Jia Tour <enquiries@jiatour.com.au>`, with Reply-To set to `jiatour@hotmail.com`. The navy/gold HTML contains the company logo, greeting, readable trip summary and a clear statement that this is not a quotation or booking confirmation. A plain-text alternative is included.
 
-The `_autoresponse` field sends a fixed English acknowledgement and FormSubmit’s copy of the submission to the visitor’s required `email` field. It thanks the customer, explains that availability and the quote will be reviewed, clearly excludes booking confirmation, and provides the business phone and email for follow-up. It does not promise a fixed response time or generate prices/availability.
+The frontend retains entered data on failure and keeps the same idempotency ID for retries of identical data. It only shows success after a matching positive Worker response; email-provider acceptance is not proof of inbox delivery. No fallback provider is called automatically after an ambiguous timeout. This applies to website enquiries, not messages sent directly to the Hotmail inbox.
 
-Keep the native POST submission, CAPTCHA enabled and the input named `email`: FormSubmit documents that autoresponses do not work with AJAX or disabled CAPTCHA. The acknowledgement is sent by the form provider; do not assume it is sent from the business Hotmail address. This applies to website form submissions only, not messages sent directly to the Hotmail inbox.
+On 15 November 2026 the owner submitted a controlled enquiry on the test page and supplied the actual received customer `.eml`. It confirms the new sender, Hotmail Reply-To, logo URL and branded HTML, with Gmail reporting SPF, DKIM and DMARC pass. The received HTML was checked at desktop and mobile widths with test fields redacted. This confirms customer-side delivery for that test; business-inbox delivery and Outlook-client rendering have not been independently confirmed. The owner should also check Hotmail for `Jia Tour | New charter quote enquiry` and monitor later delivery/bounce events.
 
-The owner supplied a received customer acknowledgement on 15 November 2026, confirming that the original auto reply reached their test customer inbox. It also showed that FormSubmit collapses message line breaks and uses its own customer receipt layout despite `_template=table`. Business-inbox delivery and the updated receipt have not yet been confirmed by an end-to-end email test. No new test email was sent during this update.
-
-The live message is now concise, the trip fields use readable single-word labels, and blank optional answers are omitted where the browser supports the formdata event. Campaign fields are no longer separate customer-facing rows. `_template=table` remains for provider notifications; do not claim it controls the customer autoresponse layout.
-
-A separate branded HTML email is prepared in `_email/` for a future transactional email integration. It is NOT connected to the live form. Do not paste HTML into `_autoresponse`: the provider documentation does not document support for a fully custom HTML autoresponse. See `_email/README.md` for the remaining integration requirements.
+The former owner test URLs redirect to the live enquiry section and privacy notice. Backend setup, security boundaries and test commands are documented in `_server/README.md`. The email renderer is documented in `_email/README.md`. Never put API keys or Turnstile secret keys into frontend files, screenshots or GitHub.
 
 ## Promotion links
 
-Use these URLs as the website links on the business's own profiles or approved campaigns. Non-empty campaign labels appear in the business notification subject (source, medium, campaign and content, up to 80 characters each). They are excluded from the customer field list; direct visits add no campaign data. They do not count page views, phone calls or conversions. Do not include personal data in campaign labels.
+Use these URLs as the website links on the business's own profiles or approved campaigns. Non-empty campaign labels appear in the business notification body (source, medium, campaign and content, up to 80 characters each). They are excluded from the customer field list; direct visits add no campaign data. They do not count page views, phone calls or conversions. Do not include personal data in campaign labels.
 
 | Placement | URL |
 | --- | --- |

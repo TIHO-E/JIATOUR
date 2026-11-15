@@ -1,5 +1,5 @@
 // GENERATED: run node _server/build.mjs; do not put secrets in this file.
-// Prepared HTML/text only. This module does not send mail and is not used by the live form.
+// HTML/text renderer used by the Cloudflare enquiry Worker. It does not send mail itself.
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
 const clean = (value, limit = 250) => String(value ?? '').trim().slice(0, limit);
 
@@ -61,7 +61,7 @@ ${fields.length ? `<p style="margin:0 0 10px;font-size:10px;font-weight:700;lett
   return { subject, text, html };
 }
 
-// Prepared Cloudflare Worker. The live website still posts to FormSubmit.
+// Cloudflare Worker for Jia Tour website enquiries and branded acknowledgements.
 
 const ORIGINS = new Set(['https://www.jiatour.com.au', 'https://jiatour.com.au']);
 const HOSTNAMES = new Set(['www.jiatour.com.au', 'jiatour.com.au']);

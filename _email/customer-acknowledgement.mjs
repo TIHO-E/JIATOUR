@@ -1,4 +1,4 @@
-// Prepared HTML/text only. This module does not send mail and is not used by the live form.
+// HTML/text renderer used by the Cloudflare enquiry Worker. It does not send mail itself.
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
 const clean = (value, limit = 250) => String(value ?? '').trim().slice(0, limit);
 

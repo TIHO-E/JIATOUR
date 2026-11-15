@@ -1,4 +1,4 @@
-// Prepared Cloudflare Worker. The live website still posts to FormSubmit.
+// Cloudflare Worker for Jia Tour website enquiries and branded acknowledgements.
 import { renderAcknowledgement } from '../_email/customer-acknowledgement.mjs';
 
 const ORIGINS = new Set(['https://www.jiatour.com.au', 'https://jiatour.com.au']);

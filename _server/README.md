@@ -1,18 +1,18 @@
-# Jia Tour branded enquiry sender — integration staged
+# Jia Tour branded enquiry sender
 
-The production website on GitHub Pages still posts to FormSubmit. The `feat/branded-enquiry-form` branch prepares its replacement; merging this branch to `main` will switch the live form. The owner reports Resend has verified `jiatour.com.au` in Tokyo. Public DNS checks found the new DKIM TXT record and the two CNAME records (`rsend` and `send`) on 15 November 2026.
+The GitHub Pages homepage now uses the Cloudflare Worker at `https://jiatour-enquiries.tiho-largaux.workers.dev/enquiry` with Resend and a Managed Turnstile widget. The public widget site key is `0x4AAAAAAGBmhQ-OOyapcLjs`. The previous FormSubmit route has been removed from the homepage.
 
-The owner created `jiatour-enquiries` at `https://jiatour-enquiries.tiho-largaux.workers.dev/` and provided the public Turnstile site key `0x4AAAAAAGBmhQ-OOyapcLjs`. A production-settings screenshot shows `ENQUIRIES_ENABLED` as the string `true`, with `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` stored as encrypted secrets. Secret values have not been shared or inspected. An external read-only health check was blocked with HTTP 403 / Cloudflare 1010; the owner subsequently checked `/health` in her own browser and supplied `{"service":"Jia Tour enquiries","ready":true}`. A ready response proves configuration presence, not valid credentials or delivery.
+The owner verified the Resend domain `jiatour.com.au` in Tokyo, added its DKIM and sending CNAME records in VentraIP, deployed the Worker, and stored `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` as encrypted production secrets. `ENQUIRIES_ENABLED` is the string `true`. The owner supplied a successful `/health` response and then an actual received branded customer acknowledgement on 15 November 2026. Gmail reported SPF, DKIM and DMARC pass; Reply-To is `jiatour@hotmail.com`. No secret values have been shared or inspected.
 
-Frontend integration, CSP changes, the public privacy notice and local mocked tests are prepared in this branch. No real enquiry email has been sent as part of this integration. An unlinked, noindex owner test page at `/enquiry-test.html` uses the exact staged form and a separate test privacy notice. The main homepage retains FormSubmit while the owner tests actual delivery. Production cutover and inbox verification remain outstanding.
+Customer delivery is verified for that controlled test. The business inbox and Outlook rendering remain unverified independently. The temporary test pages now redirect to the live form and privacy notice. Received email files and customer details are excluded from the repository.
 
-## Prepared backend
+## Backend
 
 Deploy `worker.upload.mjs` as a Cloudflare Worker ES module. Rebuild it from the source and existing branded email renderer with `node _server/build.mjs`. The Worker runs without npm dependencies, a database, or changes to the site's nameservers. It accepts JSON at `POST /enquiry` from the two Jia Tour HTTPS origins, bounds request and field sizes, validates the trip and Melbourne date, and validates Turnstile server-side with the exact hostname and `enquiry` action. Origin checks are not treated as a substitute for Turnstile.
 
 A Resend batch submits the business notification to `jiatour@hotmail.com` and the branded customer acknowledgement together. The sender is `Jia Tour <enquiries@jiatour.com.au>`; customer replies go to Hotmail, and business notification replies go to the customer's validated email. No receiving mailbox is created at the sending address. The customer email uses the public PNG logo because Resend batch attachments are not supported. Campaign labels are present only in the internal notification.
 
-The Worker does not store enquiry bodies or log secrets/contact details. Cloudflare and Resend process requests and may retain provider logs. The staged public enquiry privacy notice describes these providers and Resend's US account-data storage. Provider acceptance is not proof of delivery.
+The Worker does not store enquiry bodies or log secrets/contact details. Cloudflare and Resend process requests and may retain provider logs. The public enquiry privacy notice describes these providers and Resend's US account-data storage. Provider acceptance is not proof of delivery.
 
 ## Dashboard configuration reference
 
@@ -23,13 +23,13 @@ The Worker does not store enquiry bodies or log secrets/contact details. Cloudfl
 5. In Worker Settings > Variables and Secrets, add **Secret** `RESEND_API_KEY` and **Secret** `TURNSTILE_SECRET_KEY`. Add text variable `ENQUIRIES_ENABLED` with value `true` only when ready for controlled delivery testing. Deploy changes.
 6. Provide the public Worker HTTPS URL and public Turnstile site key for frontend integration. Never provide secret values.
 
-## Work before activation
+## Frontend and operational checks
 
-- Confirm `/health` returns HTTP 200 and `{"service":"Jia Tour enquiries","ready":true}` in the owner's browser. Do not change the variable type merely because the dashboard list labels plaintext strings as `Variable`.
-- Review and visually verify the staged frontend before production cutover. `assets/enquiry.js` replaces native submission with JSON fetch, renders Turnstile with action `enquiry`, keeps an idempotency ID for retries of identical data, resets failed challenges and retains entered data. It only shows success when the Worker confirms the matching request ID. It never falls back automatically to a second email provider after an ambiguous timeout. The staged homepage removes old FormSubmit fields, updates the CSP and includes a contact fallback and matching privacy notice.
-- Client data contract: all trip fields are strings with current form names (`Name`, `email`, `Phone`, `Journey`, `Date`, `Passengers`, `Vehicle`, `Pickup`, `Destination`, `Notes`). Optional campaign keys: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`.
-- Test a real controlled submission with the owner's chosen test recipient and inspect both recipient inboxes, email headers, Gmail/Outlook/mobile layout, and duplicate retry behaviour. The mock tests only verify code, not external delivery.
-- Monitor provider quotas, failed/bounced email events and abuse before and after launch. Two messages consume two units of the sending quota. Resend deduplication lasts 24 hours; this simple endpoint has no persistent queue, automated retry scheduler, or global per-user rate limiter. Turnstile and provider quotas are its current abuse controls; add a rate-limit binding/WAF rule if traffic warrants it.
+- `/health` reports whether the three required settings are present. A ready response alone does not prove key validity or email delivery. Plaintext strings appear as `Variable` in the dashboard list.
+- `assets/enquiry.js` submits JSON, renders Turnstile with action `enquiry`, keeps an idempotency ID for retries of identical data, resets failed challenges and retains entered data. It only shows success when the Worker confirms the matching request ID, and never falls back automatically to another sending provider after an ambiguous timeout.
+- Client data contract: trip fields are strings named `Name`, `email`, `Phone`, `Journey`, `Date`, `Passengers`, `Vehicle`, `Pickup`, `Destination`, `Notes`. Optional campaign keys are `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`. The payload also includes `_honey`, `turnstileToken` and a UUIDv4 `requestId`.
+- After changing the Worker or email renderer, redeploy the generated bundle in Cloudflare; publishing GitHub Pages alone does not update the Worker. After any delivery change, use an owner-controlled test address and check both inboxes, headers and email-client layout. Do not send tests to arbitrary customers.
+- Monitor provider quotas, failed/bounced email events and abuse. Each enquiry consumes two sent messages. Resend deduplication lasts 24 hours; this endpoint has no persistent queue, retry scheduler or global per-user rate limiter. Turnstile and provider quotas are the current abuse controls; add rate limiting if traffic warrants it.
 
 Run local checks: `node --test _server/enquiry-worker.test.mjs`, `node _server/build.mjs`, `node --check _server/worker.upload.mjs`.
 
