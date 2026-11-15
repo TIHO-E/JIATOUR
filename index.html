@@ -1,447 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-AU">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none';">
-  <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
-  <meta http-equiv="X-Frame-Options" content="DENY">
-  <meta name="format-detection" content="telephone=no, email=no">
-
-  <title>Jia Tour | Melbourne Bus & Coach Charter Services</title>
-
-  <meta name="description" content="JIA TOUR offers comfortable, reliable tour bus services across Australia. Explore our fleet and book your next trip today.">
-  <meta name="keywords" content="JIA Tour, Tour Bus, Australia Travel, Charter Bus, Sydney, Melbourne, 7-seater, 24-seater, 34-seater, 57-seater">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="JIATOUR">
-
-  <link rel="icon" href="JIATOURLOGO.png" type="image/png" />
-  <link rel="preload" as="image" href="Banner1.jpg" type="image/jpg" fetchpriority="high">
-
-  <meta property="og:title" content="JIA TOUR – Australia’s Trusted Tour Bus Provider">
-  <meta property="og:description" content="Comfortable and reliable transport across Australia.">
-  <meta property="og:image" content="https://www.jiatour.com.au/JIATOURLOGO.png">
-  <meta property="og:url" content="https://www.jiatour.com.au">
-
-  <style>
-    :root {
-      --primary: #1F2A44;
-      --accent: #FFC857;
-      --background: #F9FAFB;
-      --surface: #FFFFFF;
-      --text-main: #2E2E2E;
-      --text-muted: #6B7280;
-      --border-color: #D1D5DB;
-      --hover: #E1B24C;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
-      background: var(--background);
-      color: var(--text-main);
-      line-height: 1.6;
-      font-size: 18px;
-    }
-    a { color: var(--accent); text-decoration: none; }
-    header {
-      background: var(--primary);
-      padding: 1rem 0;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between; /* This will push elements to ends */
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 1rem;
-      flex-wrap: wrap; /* Allows wrapping on smaller screens */
-      gap: 1rem;
-    }
-    .logo { height: 60px; background: var(--surface); border-radius: 6px; }
-    nav {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      /* On desktop, nav should be between logo and contact links for spacing */
-      flex-grow: 1; /* Allows nav to take up available space */
-      justify-content: center; /* Center the nav items */
-    }
-    nav a { color: var(--accent); font-weight: 600; transition: 0.3s; }
-    nav a:hover { color: var(--hover); }
-    .menu-toggle { display: none; font-size: 2rem; color: var(--accent); cursor: pointer; }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-      /* Desktop: Ensure these are always right-aligned */
-      margin-left: auto; /* Pushes contact-links to the far right */
-    }
-    .phone, .email {
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: flex; /* Allows content and icon to be inline */
-      align-items: center; /* Vertically align icon with text */
-    }
-    /* Icons for phone and email on desktop */
-    .phone::before, .email::before {
-      content: attr(data-icon); /* Uses the data-icon attribute for content */
-      margin-right: 0.5em; /* Space between icon and text */
-      color: var(--accent); /* Ensure icon color matches */
-      font-size: 1.1em; /* Slightly larger icon */
-    }
-    .phone::before { content: "📞"; }
-    .email::before { content: "📧"; }
-
-    .spacer { height: 90px; }
-    .hero {
-      min-height: 100vh;
-      background: linear-gradient(rgba(31,42,68,0.6), rgba(31,42,68,0.6)), url('Banner1.jpg') center/cover no-repeat;
-      color: var(--surface);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 800;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-      margin-bottom: 1rem;
-    }
-    .hero .highlight {
-      color: var(--accent);
-      white-space: nowrap;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .section {
-      padding: 3rem 1rem;
-      max-width: 1200px;
-      margin: auto;
-      background: var(--surface);
-      border-bottom: 2px solid var(--accent);
-    }
-    .section h2 {
-      color: var(--primary);
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2rem;
-      position: relative;
-    }
-    .section h2::after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background: var(--accent);
-      margin: 0.5rem auto 0;
-    }
-    .about-grid, .quote-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-    .about-content { flex: 2 1 600px; }
-    .company-info { flex: 1 1 280px; text-align: center; }
-    .quote-grid .company-info { flex: 1 1 280px; text-align: center; padding: 1rem; }
-    .quote-grid .contact-form { flex: 2 1 600px; }
-    .about-content, .company-info, .contact-form {
-      background: var(--surface);
-      padding: 1.5rem;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .about-content ul { margin: 1rem 0 0 1.5rem; }
-    .fleet-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .fleet-item {
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      text-align: center;
-      background: var(--surface);
-      transition: transform 0.3s, border-color 0.3s;
-    }
-    .fleet-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-    .fleet-item img {
-      width: 100%;
-      height: aspect-ratio;
-      object-fit: cover;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-    }
-    .form-group { margin-bottom: 1rem; }
-    input, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-      outline: none;
-    }
-    button {
-      background: var(--primary);
-      color: var(--surface);
-      padding: 0.75rem 1.5rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: var(--accent);
-      color: var(--primary);
-    }
-    footer {
-      background: var(--primary);
-      color: var(--surface);
-      text-align: center;
-      padding: 1rem;
-    }
-
-    /* Mobile specific styles */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: clamp(2rem, 8vw, 3rem);
-        white-space: normal;
-      }
-      .hero .highlight {
-        white-space: nowrap;
-      }
-
-      .header-content {
-        flex-direction: row; /* Keep elements in a row */
-        justify-content: space-between; /* Distribute items with space between */
-        align-items: center; /* Vertically center items */
-        position: relative; /* For absolute positioning of nav */
-      }
-
-      .logo {
-        order: 1; /* Logo first */
-      }
-      .menu-toggle {
-        display: block; /* Show menu toggle button */
-        order: 2; /* Menu toggle after logo */
-        margin-right: auto; /* Pushes contact-links to the far right on mobile */
-      }
-      .contact-links {
-        order: 3; /* Contact links after menu toggle */
-        flex-direction: column; /* Stack phone and email vertically */
-        align-items: flex-end; /* Align to the right */
-        gap: 0.5rem;
-        font-size: 0.8rem; /* Smaller font size for mobile contact links */
-        margin-left: 0; /* Reset margin-left for mobile */
-      }
-      /* Icons for phone and email on mobile */
-      .contact-links .phone::before,
-      .contact-links .email::before {
-        content: attr(data-icon); /* Display the icon character */
-        margin-right: 5px;
-        font-size: 1em; /* Adjust icon size */
-      }
-
-      nav {
-        display: none; /* Hide navigation by default */
-        flex-direction: column; /* Stack navigation items vertically */
-        width: 100%; /* Full width */
-        background: var(--primary); /* Background for dropdown */
-        position: absolute; /* Position absolutely below header */
-        top: 100%; /* Below the header */
-        left: 0;
-        padding: 1rem 0;
-        box-shadow: 0 5px 5px rgba(0,0,0,0.1);
-      }
-      nav.show {
-        display: flex; /* Show navigation when 'show' class is present */
-      }
-      nav a {
-        padding: 0.75rem 1rem;
-        text-align: center;
-        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separator */
-      }
-      nav a:last-child {
-        border-bottom: none;
-      }
-      .about-grid, .quote-grid { flex-direction: column; }
-    }
-  </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const toggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
-      toggle.addEventListener("click", () => nav.classList.toggle("show"));
-
-      // Close mobile nav when a link is clicked
-      nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          if (nav.classList.contains('show')) {
-            nav.classList.remove('show');
-          }
-        });
-      });
-    });
-  </script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#132c3c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Melbourne Bus Hire &amp; Coach Charter | Jia Tour</title>
+<meta name="description" content="Melbourne bus and coach charter for schools, corporate events, airport transfers and private groups. Explore 7–57 seat vehicles and request a Jia Tour quote.">
+<link rel="canonical" href="https://www.jiatour.com.au/"><link rel="icon" type="image/png" href="assets/favicon.png"><link rel="preload" as="image" href="assets/coastal-road.webp" fetchpriority="high"><link rel="stylesheet" href="assets/site.css">
+<meta property="og:type" content="website"><meta property="og:locale" content="en_AU"><meta property="og:site_name" content="Jia Tour"><meta property="og:title" content="Your group. Your journey. | Jia Tour Melbourne"><meta property="og:description" content="Bus and coach charter for schools, businesses and private groups. Melbourne based. Ready for your next journey."><meta property="og:url" content="https://www.jiatour.com.au/"><meta property="og:image" content="https://www.jiatour.com.au/assets/social-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Victoria’s coastal scenery">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Melbourne Bus &amp; Coach Charter | Jia Tour"><meta name="twitter:description" content="Explore 7–57 seat options and request a charter quote."><meta name="twitter:image" content="https://www.jiatour.com.au/assets/social-preview.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.jiatour.com.au/#business","name":"Jia Tour","legalName":"Jia Tour Pty Ltd","url":"https://www.jiatour.com.au/","logo":"https://www.jiatour.com.au/assets/logo.webp","telephone":"+61430218539","email":"jiatour@hotmail.com","taxID":"66 672 569 452","areaServed":[{"@type":"City","name":"Melbourne"},{"@type":"State","name":"Victoria"},{"@type":"Country","name":"Australia"}]},{"@type":"WebSite","@id":"https://www.jiatour.com.au/#website","url":"https://www.jiatour.com.au/","name":"Jia Tour","inLanguage":"en-AU","publisher":{"@id":"https://www.jiatour.com.au/#business"}},{"@type":"Service","name":"Melbourne bus and coach charter","serviceType":"Bus and coach charter","provider":{"@id":"https://www.jiatour.com.au/#business"},"areaServed":{"@type":"State","name":"Victoria"},"url":"https://www.jiatour.com.au/#services"}]}</script>
+<script src="assets/site.js" defer></script>
 </head>
-
 <body>
-
-   <header>
-    <div class="header-content">
-      <img src="JIATOURLOGO.png" alt="Jia Tour Logo" class="logo" />
-      <div class="menu-toggle">☰</div>
-      <div class="contact-links">
-        <a href="tel:+61430218539" class="phone" data-icon="📞">0430 218 539</a>
-        <a href="mailto:jiatour@hotmail.com" class="email" data-icon="📧">jiatour@hotmail.com</a>
-      </div>
-      <nav>
-        <a href="#home">HOME</a>
-        <a href="#about">About Us</a>
-        <a href="#fleet">Fleet</a>
-        <a href="#contact">Contact</a>
-        <a href="#quote">Quote</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="spacer"></div>
-
-  <section class="hero" id="home">
-    <div>
-      <h1>Welcome to <span class="highlight">Jia Tour</span></h1>
-      <p>ABN: 66 672 569 452</p>
-      <p>Your Trusted Melbourne Bus & Coach Charter Services</p>
-    </div>
-  </section>
-
-  <section id="about" class="section">
-    <h2>About Us</h2>
-    <div class="about-grid">
-      <div class="about-content">
-        <p><strong>Jia Tour</strong> is a trusted <strong>Melbourne-based bus charter provider</strong>, delivering safe and reliable transport services throughout Victoria and across Australia.</p>
-
-        <p>Our professional drivers each bring <span style="color: var(--accent); font-weight: bold;">over a decade of experience</span>, ensuring every journey is smooth, punctual, and secure.</p>
-
-        <p><span style="font-weight: bold; color: var(--primary);">Safety is—and always will be—our top priority.</span></p>
-
-        <div style="background: #F3F4F6; border-left: 4px solid var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
-          <p style="margin: 0;"><strong>Accredited Bus Operator</strong>: <span style="color: var(--primary); font-weight: bold;">#AO134410</span></p>
-          <p style="margin: 0;">Certified by Transport Safety Victoria</p>
-          <p style="margin: 0;">Compliant with the <em>Bus Safety Act 2009 (VIC)</em> & <em>Bus Safety Regulations 2010 (VIC)</em></p>
-        </div>
-        <br>
-        <h3>We proudly specialise in transportation for:</h3>
-        <ul>
-          <li>Educational institutions and school excursions</li>
-          <li>Corporate events and conferences</li>
-          <li>Travel agencies and inbound groups</li>
-          <li>Family gatherings, weddings, clubs, and private functions</li>
-          <li>Wine region tours</li>
-          <li>Alpine and snowfield trips</li>
-        </ul>
-      </div>
-
-      <div class="company-info">
-        <h3 style="font-weight: bold; margin-bottom: 2rem;">Contact Us</h3>
-        <p>Jia Tour Pty Ltd</p>
-        <p>Accredited Bus Operator #AO134410</p>
-        <p>Melbourne, Victoria, Australia</p>
-        <p>Phone: <a href="tel:+61430218539">0430 218 539</a></p>
-        <p>Email: <a href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section id="fleet" class="section">
-    <h2>Our Fleet</h2>
-    <div class="fleet-grid">
-      <div class="fleet-item">
-        <img src="7-14seater.jpg" alt="7–14 Seater Bus" loading="lazy">
-        <h3>7–14 Seater Bus</h3>
-        <p>Perfect for small groups and airport transfers</p>
-      </div>
-      <div class="fleet-item">
-        <img src="24seater.jpg" alt="24 Seater Bus" loading="lazy">
-        <h3>24 Seater Bus</h3>
-        <p>Ideal for medium-sized groups and city tours</p>
-      </div>
-      <div class="fleet-item">
-        <img src="34seater.jpg" alt="34 Seater Bus" loading="lazy">
-        <h3>34 Seater Bus</h3>
-        <p>Great for large groups and long-distance travel</p>
-      </div>
-      <div class="fleet-item">
-        <img src="57seater.jpg" alt="57 Seater Bus" loading="lazy">
-        <h3>57 Seater Bus</h3>
-        <p>Ideal for huge groups and city tours</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="quote" class="section">
-    <h2>Request a Quote</h2>
-    <div class="quote-grid">
-      <div class="company-info" id="contact">
-        <img src="JIATOURLOGO.png" alt="Jia Tour Logo" width="200" />
-        <h3>Contact Us</h3>
-        <p>Jia Tour Pty Ltd</p>
-        <p>Accredited Bus Operator #AO134410</p>
-        <p>Melbourne, Victoria, Australia</p>
-        <p>Phone: <a href="tel:+61430218539">0430 218 539</a></p>
-        <p>Email: <a href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a></p>
-        <p>Safe. Reliable. Professional.</p>
-      </div>
-
-      <form class="contact-form" action="https://formsubmit.co/jiatour@hotmail.com" method="POST">
-        <div class="form-group">
-          <label>Name:</label>
-          <input type="text" name="name" required>
-        </div>
-        <div class="form-group">
-          <label>Phone:</label>
-          <input type="tel" name="phone" required pattern="[0-9+ ]{6,}">
-        </div>
-        <div class="form-group">
-          <label>Email:</label>
-          <input type="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label>Message:</label>
-          <textarea name="message" rows="5" required></textarea>
-        </div>
-        <input type="hidden" name="_subject" value="New message from Jia Tour website">
-        <input type="hidden" name="_captcha" value="false">
-        <button type="submit">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Jia Tour Pty Ltd. All rights reserved.</p>
-  </footer>
-
-</body>
-</html>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner">
+<a class="brand" href="#home" aria-label="Jia Tour home"><img src="assets/logo.webp" width="64" height="64" alt="Jia Tour"><span class="brand-text">JIA TOUR<small>BUS &amp; COACH CHARTER</small></span></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span></span><span></span><span></span></button>
+<nav id="primary-nav" aria-label="Main navigation"><a href="#services">Our services</a><a href="#fleet">Our fleet</a><a href="#about">About us</a><a href="#contact">Contact</a><a class="button button-small nav-quote" href="#quote">Request a quote <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav>
+</div></header>
+<main id="main">
+<section class="hero" id="home" aria-labelledby="hero-title">
+<img class="hero-image" src="assets/coastal-road.webp" width="1600" height="866" alt="" fetchpriority="high">
+<div class="container hero-content"><p class="eyebrow"><span class="gold-line"></span> MELBOURNE BUS &amp; COACH CHARTER</p><h1 id="hero-title">Your group.<br>Your journey.<br><span>Our commitment.</span></h1><p class="hero-description">From airport arrivals to days worth remembering.<br class="desktop-break"> Travel together with Jia Tour.</p>
+<div class="button-row"><a class="button button-gold" href="#quote">Plan your journey <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a class="hero-phone" href="tel:+61430218539"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 5 4c-3 1 0 7 4 11s10 7 11 4l1-3-5-2-2 2c-3-1-5-3-6-6l2-2Z"/></svg>0430 218 539</a></div><a class="hero-explore" href="#fleet">FIND YOUR FIT <span aria-hidden="true">↓</span></a></div><div class="hero-caption">VICTORIA &amp; BEYOND</div>
+</section>
+<div class="trust-band"><div class="container trust-inner"><p><span class="trust-icon" aria-hidden="true">✓</span><span>Accredited operator<small>AO134410</small></span></p><p><span class="trust-number">7–57</span><span>Seat options<small>A vehicle for your group</small></span></p><p><span class="trust-icon" aria-hidden="true">◎</span><span>Melbourne based<small>Victoria &amp; interstate travel</small></span></p></div></div>
+<section class="section container" id="services" aria-labelledby="services-title">
+<div class="section-heading"><div><p class="eyebrow">HOW WE CAN HELP</p><h2 id="services-title">Good journeys start<br>with the right people.</h2></div><p>One group or a whole event. We help schools, businesses and private travellers get where they need to be.</p></div>
+<div class="services-grid">
+<a class="service-item" href="#quote" data-service="School & education"><span class="service-number">01</span><div><h3>Schools &amp; education</h3><p>Transport for excursions, school outings and educational groups.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+<a class="service-item" href="#quote" data-service="Corporate & events"><span class="service-number">02</span><div><h3>Corporate &amp; events</h3><p>Keep your group together for conferences, business events and functions.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+<a class="service-item" href="#quote" data-service="Airport transfer"><span class="service-number">03</span><div><h3>Airport transfers</h3><p>Group arrivals and departures, with your pickup and luggage needs in mind.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+<a class="service-item" href="#quote" data-service="Private group & wedding"><span class="service-number">04</span><div><h3>Private groups &amp; weddings</h3><p>Bring everyone along for celebrations, family gatherings and club outings.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+<a class="service-item" href="#quote" data-service="Tour & day trip"><span class="service-number">05</span><div><h3>Tours &amp; day trips</h3><p>Transport for wine region visits, sightseeing and alpine adventures.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+<a class="service-item" href="#quote" data-service="Travel agency & inbound group"><span class="service-number">06</span><div><h3>Travel agencies &amp; groups</h3><p>Charter transport to fit your inbound group’s itinerary and schedule.</p></div><svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+</div></section>
+<section class="fleet-section section" id="fleet" aria-labelledby="fleet-title"><div class="container">
+<div class="section-heading"><div><p class="eyebrow">ROOM FOR EVERYONE</p><h2 id="fleet-title">Find your fit.</h2></div><p>From smaller groups to full coach travel. Tell us your passenger numbers and luggage needs, and we’ll help you choose.</p></div>
+<div class="fleet-grid">
+<article class="fleet-card"><div class="vehicle-image"><img src="assets/fleet-7-14.webp" width="625" height="299" alt="Black small-group minibus" loading="lazy"></div><div class="fleet-content"><p class="fleet-label">SMALL GROUPS</p><h3>7–14 seats</h3><p>Airport transfers, family trips and smaller group outings.</p><a href="#quote" data-vehicle="7–14 seats">Enquire about this vehicle <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div></article>
+<article class="fleet-card"><div class="vehicle-image"><img src="assets/fleet-24.webp" width="436" height="175" alt="White 24-seat bus" loading="lazy"></div><div class="fleet-content"><p class="fleet-label">MID-SIZE GROUPS</p><h3>24 seats</h3><p>City tours, corporate groups and shared day trips.</p><a href="#quote" data-vehicle="24 seats">Enquire about this vehicle <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div></article>
+<article class="fleet-card"><div class="vehicle-image"><img src="assets/fleet-34.webp" width="762" height="603" alt="34-seat bus" loading="lazy"></div><div class="fleet-content"><p class="fleet-label">LARGER GROUPS</p><h3>34 seats</h3><p>School excursions, group outings and longer journeys.</p><a href="#quote" data-vehicle="34 seats">Enquire about this vehicle <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div></article>
+<article class="fleet-card"><div class="vehicle-image"><img src="assets/fleet-57.webp" width="900" height="742" alt="57-seat coach" loading="lazy"></div><div class="fleet-content"><p class="fleet-label">COACH TRAVEL</p><h3>57 seats</h3><p>Large tour groups, events and travel further afield.</p><a href="#quote" data-vehicle="57 seats">Enquire about this vehicle <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div></article>
+</div><p class="section-note">Vehicle allocation is subject to availability and your itinerary. Please mention luggage, accessibility or other specific requirements when enquiring.</p>
+</div></section>
+<section class="about-section" id="about" aria-labelledby="about-title"><div class="container about-layout">
+<div><p class="eyebrow">MEET JIA TOUR</p><h2 id="about-title">Local people.<br>A personal approach.</h2><p class="about-intro">We’re a Melbourne-based bus and coach charter provider, helping groups travel across Victoria and Australia.</p><p>Our professional drivers each bring over a decade of experience. Whether it’s a school excursion, a business event or a day out together, safety and reliability are at the heart of what we do.</p><a class="text-link light" href="#quote">Let’s talk about your trip <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
+<div class="approach-list"><div><span>01</span><div><h3>Tell us your plans</h3><p>Share your date, group size, pickup point and destination.</p></div></div><div><span>02</span><div><h3>Find the right option</h3><p>We’ll discuss the vehicle and details that suit your journey.</p></div></div><div><span>03</span><div><h3>Confirm, then travel</h3><p>Finalise your quote and booking details with the Jia Tour team.</p></div></div></div>
+</div></section>
+<section class="section container faq-section" aria-labelledby="faq-title"><div><p class="eyebrow">BEFORE YOU GO</p><h2 id="faq-title">A little planning.<br>A smoother journey.</h2></div><div class="faq-list">
+<details><summary>What information do you need for a quote?</summary><p>Your travel date, passenger numbers, pickup and destination are a good start. Include any return journey, extra stops, luggage or specific access requirements so we can discuss a suitable option.</p></details>
+<details><summary>Which vehicle should I choose?</summary><p>We list 7–14, 24, 34 and 57-seat options. Passenger numbers are only part of the picture: luggage and your itinerary matter too. Choose “Help me choose” on the form if you’re unsure.</p></details>
+<details><summary>Do you travel outside Melbourne?</summary><p>Yes. Jia Tour provides charter transport throughout Victoria and across Australia. Send us your proposed itinerary to discuss availability and a quote.</p></details>
+<details><summary>Does sending an enquiry confirm my booking?</summary><p>No. The form requests a quote. Your vehicle, price and booking arrangements need to be confirmed directly with Jia Tour.</p></details>
+</div></section>
+<section class="quote-section section" id="quote" aria-labelledby="quote-title"><div class="container quote-layout">
+<div class="quote-intro"><p class="eyebrow">LET’S GET YOU THERE</p><h2 id="quote-title">Where are<br> we heading?</h2><p>Tell us a little about your journey.<br>We’ll help with the next steps.</p><div class="contact-block" id="contact"><p class="contact-caption">PREFER TO TALK?</p><a class="contact-phone" href="tel:+61430218539">0430 218 539 <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a class="contact-email" href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a><p>Melbourne, Victoria, Australia</p></div><p class="booking-note">Requesting a quote does not confirm a booking. For a time-sensitive trip, please call us.</p></div>
+<form class="quote-form" id="quote-form" action="https://formsubmit.co/jiatour@hotmail.com" method="post">
+<h3>Your journey starts here</h3><p class="form-help">Fields marked * are required.</p>
+<fieldset><legend>01 <span>Contact details</span></legend><div class="form-grid"><div class="field full"><label for="name">Full name <span>*</span></label><input id="name" name="name" autocomplete="name" maxlength="120" required></div><div class="field"><label for="email">Email address <span>*</span></label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required></div><div class="field"><label for="phone">Phone number <span>*</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" minlength="6" maxlength="50" required></div></div></fieldset>
+<fieldset><legend>02 <span>Trip details</span></legend><div class="form-grid">
+<div class="field"><label for="service">Type of trip <span>*</span></label><select id="service" name="Trip type" required><option value="">Please select</option><option>Airport transfer</option><option>School &amp; education</option><option>Corporate &amp; events</option><option>Private group &amp; wedding</option><option>Tour &amp; day trip</option><option>Travel agency &amp; inbound group</option><option>Other</option></select></div>
+<div class="field"><label for="date">Travel date <small>(if known)</small></label><input id="date" name="Travel date" type="date" aria-describedby="date-note"><small id="date-note">Local date in Melbourne.</small></div>
+<div class="field"><label for="passengers">Passengers <span>*</span></label><input id="passengers" name="Passengers" type="number" min="1" max="1000" step="1" inputmode="numeric" required></div>
+<div class="field"><label for="vehicle">Preferred vehicle</label><select id="vehicle" name="Vehicle preference"><option>Help me choose</option><option>7–14 seats</option><option>24 seats</option><option>34 seats</option><option>57 seats</option></select></div>
+<div class="field full"><label for="pickup">Pickup location <span>*</span></label><input id="pickup" name="Pickup location" placeholder="Suburb, venue or airport" maxlength="250" required></div>
+<div class="field full"><label for="destination">Destination <span>*</span></label><input id="destination" name="Destination" placeholder="Suburb, venue or planned route" maxlength="250" required></div>
+<div class="field full"><label for="message">Anything else we should know?</label><textarea id="message" name="message" rows="4" maxlength="5000" placeholder="Pickup time, return journey, extra stops, luggage or access requirements…"></textarea></div>
+</div></fieldset>
+<div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+<input type="hidden" name="_subject" value="Jia Tour | New charter quote enquiry"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" value="https://www.jiatour.com.au/thank-you.html">
+<input type="hidden" name="Campaign source" id="campaign-source" value="Not specified"><input type="hidden" name="Campaign medium" id="campaign-medium" value="Not specified"><input type="hidden" name="Campaign name" id="campaign-name" value="Not specified"><input type="hidden" name="Campaign content" id="campaign-content" value="Not specified">
+<p class="privacy-note">Your details are used to respond to this enquiry. The form is processed by FormSubmit and may ask you to complete a security check. <a href="privacy.html">Enquiry privacy</a>.</p>
+<button class="button button-dark submit-button" type="submit">Request my quote <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><p class="submit-note" id="form-status" role="status">You’ll continue to a secure verification step.</p>
+</form></div></section>
+</main>
+<footer class="site-footer"><div class="container"><div class="footer-top"><div><a class="footer-brand" href="#home">JIA TOUR<span>SAFE. RELIABLE. PROFESSIONAL.</span></a><p>Melbourne bus &amp; coach charter.<br>Victoria and beyond.</p></div><div class="footer-links"><a href="#services">Our services</a><a href="#fleet">Our fleet</a><a href="#quote">Request a quote</a><a href="privacy.html">Enquiry privacy</a></div><div class="footer-contact"><a href="tel:+61430218539">0430 218 539</a><a href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a><button class="share-button" type="button" id="share-site">Share Jia Tour <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><span id="share-status" class="share-status" role="status"></span></div></div><div class="footer-bottom"><p>© <span data-year>2026</span> Jia Tour Pty Ltd</p><p>ABN 66 672 569 452 <span>·</span> Accredited Bus Operator AO134410</p></div></div></footer>
+<div class="mobile-actions" aria-label="Quick contact"><a href="tel:+61430218539">Call Jia Tour</a><a href="#quote">Request a quote <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
+</body></html>
