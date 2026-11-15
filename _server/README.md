@@ -1,6 +1,10 @@
-# Jia Tour branded enquiry sender — prepared, not active
+# Jia Tour branded enquiry sender — integration staged
 
-The website is still on GitHub Pages and still posts to FormSubmit. These files do not switch the live form. The owner reports Resend has verified `jiatour.com.au` in Tokyo. Public DNS checks found the new DKIM TXT record and the two CNAME records (`rsend` and `send`) on 15 November 2026.
+The production website on GitHub Pages still posts to FormSubmit. The `feat/branded-enquiry-form` branch prepares its replacement; merging this branch to `main` will switch the live form. The owner reports Resend has verified `jiatour.com.au` in Tokyo. Public DNS checks found the new DKIM TXT record and the two CNAME records (`rsend` and `send`) on 15 November 2026.
+
+The owner created `jiatour-enquiries` at `https://jiatour-enquiries.tiho-largaux.workers.dev/` and provided the public Turnstile site key `0x4AAAAAAGBmhQ-OOyapcLjs`. A production-settings screenshot shows `ENQUIRIES_ENABLED` as the string `true`, with `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` stored as encrypted secrets. Secret values have not been shared or inspected. An external read-only health check was blocked with HTTP 403 / Cloudflare 1010; the owner subsequently checked `/health` in her own browser and supplied `{"service":"Jia Tour enquiries","ready":true}`. A ready response proves configuration presence, not valid credentials or delivery.
+
+Frontend integration, CSP changes, the public privacy notice and local mocked tests are prepared in this branch. No real enquiry email has been sent as part of this integration. An unlinked, noindex owner test page at `/enquiry-test.html` uses the exact staged form and a separate test privacy notice. The main homepage retains FormSubmit while the owner tests actual delivery. Production cutover and inbox verification remain outstanding.
 
 ## Prepared backend
 
@@ -8,9 +12,9 @@ Deploy `worker.upload.mjs` as a Cloudflare Worker ES module. Rebuild it from the
 
 A Resend batch submits the business notification to `jiatour@hotmail.com` and the branded customer acknowledgement together. The sender is `Jia Tour <enquiries@jiatour.com.au>`; customer replies go to Hotmail, and business notification replies go to the customer's validated email. No receiving mailbox is created at the sending address. The customer email uses the public PNG logo because Resend batch attachments are not supported. Campaign labels are present only in the internal notification.
 
-The Worker does not store enquiry bodies or log secrets/contact details. Cloudflare and Resend process requests and may retain provider logs. Before switching, update the public enquiry privacy notice to describe these providers and Resend's US account-data storage. Provider acceptance is not proof of delivery. No message has been sent by this Worker yet.
+The Worker does not store enquiry bodies or log secrets/contact details. Cloudflare and Resend process requests and may retain provider logs. The staged public enquiry privacy notice describes these providers and Resend's US account-data storage. Provider acceptance is not proof of delivery.
 
-## Owner configuration still required
+## Dashboard configuration reference
 
 1. Create a Resend API key named `Jia Tour Website`, permission **Sending access**, domain restricted to **jiatour.com.au**. Keep its value out of chat, screenshots, code and GitHub; paste it only into the Worker's secret setting below. Resend shows it once.
 2. Sign into/create a Cloudflare account and create a Worker, suggested name `jiatour-enquiries`. A `workers.dev` endpoint is sufficient; retain VentraIP DNS and GitHub Pages hosting.
@@ -21,10 +25,12 @@ The Worker does not store enquiry bodies or log secrets/contact details. Cloudfl
 
 ## Work before activation
 
-- Replace the native FormSubmit POST with fetch to the confirmed Worker URL, render the Managed Turnstile widget with action `enquiry`, and send the validated fields, campaign labels, `_honey`, `turnstileToken` and a browser-generated `crypto.randomUUID()` requestId. Maintain the same ID for retries of identical enquiry data. Reset Turnstile after failures; keep entered data. Do not show success before `ok:true`. Clear an ID after success or edited enquiry data. Do not automatically send through a second provider after an ambiguous timeout.
-- Adjust the website CSP for the specific endpoint and Cloudflare's Turnstile resources. Remove old FormSubmit auto-reply fields only when replacing the submission handler. Update the privacy notice and fallback contact copy together.
+- Confirm `/health` returns HTTP 200 and `{"service":"Jia Tour enquiries","ready":true}` in the owner's browser. Do not change the variable type merely because the dashboard list labels plaintext strings as `Variable`.
+- Review and visually verify the staged frontend before production cutover. `assets/enquiry.js` replaces native submission with JSON fetch, renders Turnstile with action `enquiry`, keeps an idempotency ID for retries of identical data, resets failed challenges and retains entered data. It only shows success when the Worker confirms the matching request ID. It never falls back automatically to a second email provider after an ambiguous timeout. The staged homepage removes old FormSubmit fields, updates the CSP and includes a contact fallback and matching privacy notice.
 - Client data contract: all trip fields are strings with current form names (`Name`, `email`, `Phone`, `Journey`, `Date`, `Passengers`, `Vehicle`, `Pickup`, `Destination`, `Notes`). Optional campaign keys: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`.
 - Test a real controlled submission with the owner's chosen test recipient and inspect both recipient inboxes, email headers, Gmail/Outlook/mobile layout, and duplicate retry behaviour. The mock tests only verify code, not external delivery.
 - Monitor provider quotas, failed/bounced email events and abuse before and after launch. Two messages consume two units of the sending quota. Resend deduplication lasts 24 hours; this simple endpoint has no persistent queue, automated retry scheduler, or global per-user rate limiter. Turnstile and provider quotas are its current abuse controls; add a rate-limit binding/WAF rule if traffic warrants it.
 
 Run local checks: `node --test _server/enquiry-worker.test.mjs`, `node _server/build.mjs`, `node --check _server/worker.upload.mjs`.
+
+Frontend behaviour checks: install Happy DOM in a separate QA environment and run `JIATOUR_DOM_MODULE=/absolute/path/to/happy-dom/lib/index.js node --test _server/enquiry-form.test.mjs`. The 9 frontend checks and 10 Worker checks passed on 15 November 2026. All challenge callbacks and sending-provider requests are mocks: these results are not evidence of live Turnstile validation or email delivery.

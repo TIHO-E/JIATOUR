@@ -41,46 +41,7 @@ if (form) {
   document.querySelectorAll('[data-service]').forEach(link => link.addEventListener('click', () => {
     form.querySelector('#service').value = link.dataset.service;
   }));
-  const params = new URLSearchParams(window.location.search);
-  // Keep campaign attribution in the business notification subject, out of the
-  // field-by-field copy FormSubmit sends to customers. Never include contact data.
-  const campaignLabels = {utm_source: 'source', utm_medium: 'medium', utm_campaign: 'campaign', utm_content: 'content'};
-  const campaign = Object.entries(campaignLabels).flatMap(([parameter, label]) => {
-    const value = (params.get(parameter) || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 80);
-    return value ? [`${label}=${value}`] : [];
-  });
-  if (campaign.length) form.querySelector('[name="_subject"]').value += ` | ${campaign.join(' | ')}`;
-  // Omit blank optional answers instead of showing empty rows in the receipt.
-  form.addEventListener('formdata', event => {
-    for (const field of ['Date', 'Notes']) {
-      if (!String(event.formData.get(field) || '').trim()) event.formData.delete(field);
-    }
-  });
-  const dateInput = form.querySelector('#date');
-  function melbourneToday() {
-    const parts = new Intl.DateTimeFormat('en-AU', {timeZone: 'Australia/Melbourne', year: 'numeric', month: '2-digit', day: '2-digit'}).formatToParts(new Date());
-    const get = type => parts.find(part => part.type === type).value;
-    return `${get('year')}-${get('month')}-${get('day')}`;
-  }
-  dateInput.min = melbourneToday();
-  dateInput.addEventListener('input', () => dateInput.setCustomValidity(''));
-  const submit = form.querySelector('button[type="submit"]');
-  const originalButton = submit.innerHTML;
-  form.addEventListener('submit', event => {
-    dateInput.min = melbourneToday();
-    dateInput.setCustomValidity(dateInput.value && dateInput.value < dateInput.min ? 'Please choose today or a future travel date.' : '');
-    if (!form.checkValidity()) {
-      event.preventDefault(); form.reportValidity(); return;
-    }
-    // Leave delivery to the native POST and provider verification; never fake success.
-    submit.disabled = true;
-    submit.textContent = 'Continuing to verification…';
-    document.querySelector('#form-status').textContent = 'Please complete the verification on the next page. If it does not open, call 0430 218 539.';
-  });
-  window.addEventListener('pageshow', () => {
-    submit.disabled = false; submit.innerHTML = originalButton;
-    document.querySelector('#form-status').textContent = 'You’ll continue to a secure verification step.';
-  });
+
 }
 const share = document.querySelector('#share-site');
 if (share) {
