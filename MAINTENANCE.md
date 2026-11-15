@@ -11,6 +11,14 @@ The quote form POSTs to the existing FormSubmit recipient, jiatour@hotmail.com. 
 
 Delivery acceptance still requires the business to send one clearly labelled test enquiry through the live form, complete the provider's verification, activate the recipient if FormSubmit requests it, and confirm inbox or junk-folder receipt. Confirm all trip and campaign fields arrive. Do not launch paid ads until that is confirmed. No test email was sent during offline/browser validation.
 
+## Automatic customer acknowledgements
+
+The `_autoresponse` field sends a fixed English acknowledgement and FormSubmit’s copy of the submission to the visitor’s required `email` field. It thanks the customer, explains that availability and the quote will be reviewed, clearly excludes booking confirmation, and provides the business phone and email for follow-up. It does not promise a fixed response time or generate prices/availability.
+
+Keep the native POST submission, CAPTCHA enabled and the input named `email`: FormSubmit documents that autoresponses do not work with AJAX or disabled CAPTCHA. The acknowledgement is sent by the form provider; do not assume it is sent from the business Hotmail address. This applies to website form submissions only, not messages sent directly to the Hotmail inbox.
+
+Live acceptance: with the business owner’s test address, submit one clearly labelled enquiry and complete verification; confirm the business receives the enquiry and the test customer receives the acknowledgement/copy, including junk folders. Recipient activation may be required by FormSubmit. Neither inbox delivery has been independently verified by the website code checks.
+
 ## Promotion links
 
 Use these URLs as the website links on the business's own profiles or approved campaigns. Query parameters appear in the resulting enquiry email. They do not count page views, phone calls or conversions. Do not include personal data in campaign labels.
