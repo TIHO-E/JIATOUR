@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* Self-hosted fonts; licences and original sources are in assets/fonts/. */
-@font-face{font-family:Manrope;font-style:normal;font-weight:400 700;font-display:swap;src:url("fonts/manrope-latin.woff2") format("woff2")}
+@font-face{font-family:Manrope;font-style:normal;font-weight:400 800;font-display:swap;src:url("fonts/manrope-latin.woff2") format("woff2")}
 
 :root{--header-height:80px;--font-body:Manrope,"Segoe UI",Arial,sans-serif;--font-display:Manrope,"Segoe UI",Arial,sans-serif;font-family:var(--font-body);font-size:16px;line-height:1.75}
 body{font-size:1.0625rem;letter-spacing:0}
@@ -11,6 +11,7 @@ p{line-height:1.75}
 .section{padding-block:108px}
 .section-heading{margin-bottom:52px;gap:56px}
 .eyebrow,.hero .eyebrow{font-family:var(--font-body);font-size:.72rem;line-height:1.5;font-weight:700;letter-spacing:.16em;margin-bottom:19px}
+.hero .eyebrow{font-weight:800}
 .site-header{--ink:#202c44;--gold:#ffca4f;background:#202c44;font-family:Arial,Helvetica,sans-serif}
 .site-header .header-inner{min-height:80px}
 .site-header .brand{gap:10px}

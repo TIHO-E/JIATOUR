@@ -1,6 +1,6 @@
 # Website fonts
 
-Unmodified Latin WOFF2 subsets from Google Fonts, self-hosted to avoid visitor requests to Google. The original SIL Open Font License files are included. Manrope supports weights 400–700; DM Serif Display includes regular and italic. Text outside the subset uses system fallback fonts.
+Unmodified Latin WOFF2 subsets from Google Fonts, self-hosted to avoid visitor requests to Google. The original SIL Open Font License files are included. Manrope supports weights 400–800; DM Serif Display includes regular and italic. Text outside the subset uses system fallback fonts.
 
 - `dm-serif-display-italic.woff2`: https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFhOHM81r4j6k0gjAW3mujVU2B2G_VB0PD2.woff2
   SHA-256: `ed8b291611e32fa2d2900488dd48fc95faf0957b2ef7ddf1527e8d21dd9cf2df`
