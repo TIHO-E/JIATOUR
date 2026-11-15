@@ -42,10 +42,19 @@ if (form) {
     form.querySelector('#service').value = link.dataset.service;
   }));
   const params = new URLSearchParams(window.location.search);
-  const campaignFields = {utm_source: 'campaign-source', utm_medium: 'campaign-medium', utm_campaign: 'campaign-name', utm_content: 'campaign-content'};
-  Object.entries(campaignFields).forEach(([parameter, field]) => {
-    const value = (params.get(parameter) || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 160);
-    if (value) form.querySelector(`#${field}`).value = value;
+  // Keep campaign attribution in the business notification subject, out of the
+  // field-by-field copy FormSubmit sends to customers. Never include contact data.
+  const campaignLabels = {utm_source: 'source', utm_medium: 'medium', utm_campaign: 'campaign', utm_content: 'content'};
+  const campaign = Object.entries(campaignLabels).flatMap(([parameter, label]) => {
+    const value = (params.get(parameter) || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 80);
+    return value ? [`${label}=${value}`] : [];
+  });
+  if (campaign.length) form.querySelector('[name="_subject"]').value += ` | ${campaign.join(' | ')}`;
+  // Omit blank optional answers instead of showing empty rows in the receipt.
+  form.addEventListener('formdata', event => {
+    for (const field of ['Date', 'Notes']) {
+      if (!String(event.formData.get(field) || '').trim()) event.formData.delete(field);
+    }
   });
   const dateInput = form.querySelector('#date');
   function melbourneToday() {

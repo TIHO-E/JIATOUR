@@ -9,7 +9,7 @@ This is a buildless static website. Keep the existing GitHub Pages custom domain
 
 The quote form POSTs to the existing FormSubmit recipient, jiatour@hotmail.com. CAPTCHA is enabled by default; a honeypot adds another spam check. The page never shows an email-delivered message merely because a submit button was clicked. The thank-you page is only a landing page, not an independently verified delivery receipt.
 
-Delivery acceptance still requires the business to send one clearly labelled test enquiry through the live form, complete the provider's verification, activate the recipient if FormSubmit requests it, and confirm inbox or junk-folder receipt. Confirm all trip and campaign fields arrive. Do not launch paid ads until that is confirmed. No test email was sent during offline/browser validation.
+Delivery acceptance still requires the business to send one clearly labelled test enquiry through the live form, complete the provider's verification, activate the recipient if FormSubmit requests it, and confirm inbox or junk-folder receipt. Confirm all trip details arrive and any campaign attribution appears in the business notification subject. Do not launch paid ads until that is confirmed. No test email was sent during offline/browser validation.
 
 ## Automatic customer acknowledgements
 
@@ -17,11 +17,15 @@ The `_autoresponse` field sends a fixed English acknowledgement and FormSubmitâ€
 
 Keep the native POST submission, CAPTCHA enabled and the input named `email`: FormSubmit documents that autoresponses do not work with AJAX or disabled CAPTCHA. The acknowledgement is sent by the form provider; do not assume it is sent from the business Hotmail address. This applies to website form submissions only, not messages sent directly to the Hotmail inbox.
 
-Live acceptance: with the business ownerâ€™s test address, submit one clearly labelled enquiry and complete verification; confirm the business receives the enquiry and the test customer receives the acknowledgement/copy, including junk folders. Recipient activation may be required by FormSubmit. Neither inbox delivery has been independently verified by the website code checks.
+The owner supplied a received customer acknowledgement on 15 November 2026, confirming that the original auto reply reached their test customer inbox. It also showed that FormSubmit collapses message line breaks and uses its own customer receipt layout despite `_template=table`. Business-inbox delivery and the updated receipt have not yet been confirmed by an end-to-end email test. No new test email was sent during this update.
+
+The live message is now concise, the trip fields use readable single-word labels, and blank optional answers are omitted where the browser supports the formdata event. Campaign fields are no longer separate customer-facing rows. `_template=table` remains for provider notifications; do not claim it controls the customer autoresponse layout.
+
+A separate branded HTML email is prepared in `_email/` for a future transactional email integration. It is NOT connected to the live form. Do not paste HTML into `_autoresponse`: the provider documentation does not document support for a fully custom HTML autoresponse. See `_email/README.md` for the remaining integration requirements.
 
 ## Promotion links
 
-Use these URLs as the website links on the business's own profiles or approved campaigns. Query parameters appear in the resulting enquiry email. They do not count page views, phone calls or conversions. Do not include personal data in campaign labels.
+Use these URLs as the website links on the business's own profiles or approved campaigns. Non-empty campaign labels appear in the business notification subject (source, medium, campaign and content, up to 80 characters each). They are excluded from the customer field list; direct visits add no campaign data. They do not count page views, phone calls or conversions. Do not include personal data in campaign labels.
 
 | Placement | URL |
 | --- | --- |
