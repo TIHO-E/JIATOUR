@@ -37,6 +37,10 @@ Canonical metadata, descriptive copy, Open Graph/Twitter previews, Organization/
 
 ## Account connections still needed
 
+The 15 November 2026 search update adds a `/services/` directory and eight service-specific landing pages, with ten sitemap URLs in total. Edit their content in `_seo/services.json` and regenerate with `node _seo/build.mjs`; commit generated HTML too. The five approved top-bar anchors remain unchanged. Service rows now open detailed service pages, whose quote links preselect the matching journey on the original form. See `_seo/README.md` for implementation details and `_seo/PROMOTION.md` for owner-ready promotion links and setup instructions.
+
+The four campaign labels now follow same-origin internal links without cookies or browser storage, so landing on a service page does not lose the source before an enquiry. This does not add visitor analytics or infer a source for untagged visits. Twelve local mocked frontend/navigation checks passed; live inbox delivery is not part of these tests.
+
 - Business owner must provide/confirm the actual Google Business Profile and official social profile URLs before social-profile links are added to the site. Search did not establish a verified profile.
 - Verify Search Console ownership using the owner's account, then submit https://www.jiatour.com.au/sitemap.xml. Do not create a second business listing without checking ownership of the existing one.
 - GA4, Google Ads and Meta Pixel are not installed. Only configure them with confirmed account/measurement IDs, purpose and an appropriate privacy/consent setup.

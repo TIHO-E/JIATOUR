@@ -33,8 +33,35 @@ if (header) {
   if ('ResizeObserver' in window) new ResizeObserver(measureHeader).observe(header);
 }
 document.querySelectorAll('[data-year]').forEach(element => { element.textContent = new Date().getFullYear(); });
+// Keep campaign labels on internal journeys without cookies or browser storage.
+// Only these four labels are forwarded; arbitrary query parameters are not copied.
+const arrivalParams = new URLSearchParams(window.location.search);
+const campaignLabels = new URLSearchParams();
+for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+  const value = (arrivalParams.get(key) || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 80);
+  if (value) campaignLabels.set(key, value);
+}
+if (campaignLabels.size) {
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    // In-page anchors already retain the current URL's query string.
+    if (!href || href.startsWith('#') || link.hasAttribute('download')) return;
+    let target;
+    try { target = new URL(href, window.location.href); } catch { return; }
+    if (target.origin !== window.location.origin || !['http:', 'https:'].includes(target.protocol)) return;
+    for (const [key, value] of campaignLabels) {
+      if (!target.searchParams.has(key)) target.searchParams.set(key, value);
+    }
+    link.href = target.pathname + target.search + target.hash;
+  });
+}
 const form = document.querySelector('#quote-form');
 if (form) {
+  const serviceSelect = form.querySelector('#service');
+  const requestedTrip = arrivalParams.get('trip');
+  if (serviceSelect && !serviceSelect.value && requestedTrip && Array.from(serviceSelect.options).some(option => option.value === requestedTrip)) {
+    serviceSelect.value = requestedTrip;
+  }
   document.querySelectorAll('[data-vehicle]').forEach(link => link.addEventListener('click', () => {
     form.querySelector('#vehicle').value = link.dataset.vehicle;
   }));
