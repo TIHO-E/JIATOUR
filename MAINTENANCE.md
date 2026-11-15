@@ -53,3 +53,7 @@ Check all page anchors, image loading, menu keyboard behavior, vehicle/service s
 ## Visual palette
 
 The navigation retains the approved navy and gold. The homepage uses champagne for the trust strip, warm ivory for services, midnight navy for the fleet, pale mineral green for the introduction, warm porcelain for FAQs, and slate blue around the ivory enquiry form. Gold is the accent on dark surfaces; darker bronze is used for small text on light surfaces. Keep the full-width wrappers around services and FAQs, and check text contrast when changing colours.
+
+## Typography
+
+The website uses self-hosted DM Serif Display for major headings and Manrope for body text, navigation and form controls. `assets/typography.css` owns the size scale, weights, line lengths and responsive adjustments; load it after `assets/site.css`. Font files and original SIL licences are in `assets/fonts/`. Main text is generally 16–18 px, form inputs remain at least 16 px, and narrow screens use one fleet card per row to keep descriptions readable. Fonts use `font-display: swap`, system fallbacks, and no third-party font requests. The email template retains its mail-client-safe fonts.
