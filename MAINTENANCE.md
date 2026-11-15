@@ -52,3 +52,7 @@ The operator number, fleet capacities, phone, email and driver experience were c
 ## Validation
 
 Check all page anchors, image loading, menu keyboard behavior, vehicle/service selection, required fields, date/number/email validation, campaign capture, privacy/thank-you links, and narrow mobile layouts before publishing. Do not treat simulated submission or provider acceptance as proof of inbox delivery.
+
+## Visual palette
+
+The navigation retains the approved navy and gold. The homepage uses champagne for the trust strip, warm ivory for services, midnight navy for the fleet, pale mineral green for the introduction, warm porcelain for FAQs, and slate blue around the ivory enquiry form. Gold is the accent on dark surfaces; darker bronze is used for small text on light surfaces. Keep the full-width wrappers around services and FAQs, and check text contrast when changing colours.
