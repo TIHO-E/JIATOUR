@@ -1,0 +1,36 @@
+<!doctype html><html lang="en-AU"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#132c3c">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' https://challenges.cloudflare.com; style-src 'self'; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com https://jiatour-enquiries.tiho-largaux.workers.dev; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Enquiry email test | Jia Tour</title>
+
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="stylesheet" href="assets/site.css?v=20261115-receipt">
+
+
+
+
+<script src="assets/enquiry.js?v=20261115-receipt" defer></script>
+<meta name="robots" content="noindex, nofollow"></head><body class="enquiry-test-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container header-inner"><a class="brand" href="./" aria-label="Jia Tour home"><img src="assets/logo.webp" width="64" height="64" alt="Jia Tour"><span class="brand-text">JIA TOUR<small>BUS &amp; COACH CHARTER</small></span></a><a class="button button-small" href="./">Back to website</a></div></header>
+<main id="main"><section class="quote-section section" aria-labelledby="quote-title"><div class="container quote-layout"><div class="quote-intro"><p class="eyebrow">WEBSITE OWNER TEST</p><h1 id="quote-title">Preview your<br>new enquiry.</h1><p>This page tests the new email acknowledgement. Submitting sends real emails to the address you enter and to Jia Tour.</p><p>Use your own email address and enter <strong>WEBSITE TEST</strong> as the name. In the notes, add <strong>Test only — no booking required.</strong></p><div class="contact-block"><p class="contact-caption">JIA TOUR ENQUIRIES</p><a class="contact-email" href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a></div><p class="booking-note">The main website continues to use its existing enquiry form during this test.</p></div><form class="quote-form" id="quote-form" action="https://jiatour-enquiries.tiho-largaux.workers.dev/enquiry" method="post" data-enquiry-endpoint="https://jiatour-enquiries.tiho-largaux.workers.dev/enquiry" data-turnstile-sitekey="0x4AAAAAAGBmhQ-OOyapcLjs">
+<h3>Your journey starts here</h3><p class="form-help">Fields marked * are required.</p>
+<fieldset><legend>01 <span>Contact details</span></legend><div class="form-grid"><div class="field full"><label for="name">Full name <span>*</span></label><input id="name" name="Name" autocomplete="name" maxlength="120" required></div><div class="field"><label for="email">Email address <span>*</span></label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required></div><div class="field"><label for="phone">Phone number <span>*</span></label><input id="phone" name="Phone" type="tel" autocomplete="tel" minlength="6" maxlength="50" required></div></div></fieldset>
+<fieldset><legend>02 <span>Trip details</span></legend><div class="form-grid">
+<div class="field"><label for="service">Type of trip <span>*</span></label><select id="service" name="Journey" required><option value="">Please select</option><option>Airport transfer</option><option>School &amp; education</option><option>Corporate &amp; events</option><option>Private group &amp; wedding</option><option>Snow trip</option><option>Interstate trip</option><option>Tour &amp; day trip</option><option>Travel agency &amp; inbound group</option><option>Other</option></select></div>
+<div class="field"><label for="date">Travel date <small>(if known)</small></label><input id="date" name="Date" type="date" aria-describedby="date-note"><small id="date-note">Local date in Melbourne.</small></div>
+<div class="field"><label for="passengers">Passengers <span>*</span></label><input id="passengers" name="Passengers" type="number" min="1" max="1000" step="1" inputmode="numeric" required></div>
+<div class="field"><label for="vehicle">Preferred vehicle</label><select id="vehicle" name="Vehicle"><option>Help me choose</option><option>7–14 seats</option><option>24 seats</option><option>34 seats</option><option>57 seats</option></select></div>
+<div class="field full"><label for="pickup">Pickup location <span>*</span></label><input id="pickup" name="Pickup" placeholder="Suburb, venue or airport" maxlength="250" required></div>
+<div class="field full"><label for="destination">Destination <span>*</span></label><input id="destination" name="Destination" placeholder="Suburb, venue or planned route" maxlength="250" required></div>
+<div class="field full"><label for="message">Anything else we should know?</label><textarea id="message" name="Notes" rows="4" maxlength="5000" placeholder="Pickup time, return journey, extra stops, luggage or access requirements…"></textarea></div>
+</div></fieldset>
+<div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+<p class="privacy-note">Your details are used to respond to this enquiry and send an automatic acknowledgement. Cloudflare protects and processes this form; Resend delivers the emails. <a href="enquiry-test-privacy.html">Enquiry privacy</a>.</p>
+<div class="security-check"><p class="security-label">SECURE ENQUIRY</p><div id="enquiry-verification" aria-label="Security verification"></div><button id="retry-verification" class="verification-retry" type="button" hidden>Retry security check</button></div>
+<noscript><p class="form-help">Please enable JavaScript to use this form, or email <a href="mailto:jiatour@hotmail.com">jiatour@hotmail.com</a> or call <a href="tel:+61430218539">0430 218 539</a>.</p></noscript>
+<button class="button button-dark submit-button" type="submit" disabled>Request my quote <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><p class="submit-note" id="form-status" role="status" aria-live="polite">Loading security check…</p>
+<div class="enquiry-success" id="enquiry-success" role="status" tabindex="-1" hidden><span class="success-mark" aria-hidden="true">✓</span><p class="eyebrow">ENQUIRY SUBMITTED</p><h3>Thank you for getting in touch.</h3><p>Please check your inbox and junk folder for your acknowledgement. Our team will review your journey and contact you to discuss availability and a quote.</p><p class="success-note">This is an enquiry, not a confirmed booking.</p><a href="mailto:jiatour@hotmail.com">Need to update your plans? Email Jia Tour.</a></div>
+</form></div></section></main>
+<footer class="site-footer"><div class="container"><a class="footer-brand" href="./">JIA TOUR<span>SAFE. RELIABLE. PROFESSIONAL.</span></a></div></footer>
+</body></html>
